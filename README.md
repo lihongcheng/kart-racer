@@ -1,6 +1,8 @@
 # 极速小车 · Coastline Club
 
-可直接在 PC 浏览器游玩的原创 3D 街机竞速游戏：海风环线与落日峡谷双赛道、1 玩家 + 5 AI、三圈比赛、漂移集气、小喷、氮气、赛事奖牌、车库配色、本地纪录与 Hyper3D 模型工坊。
+可直接在 PC 浏览器游玩的原创 3D 街机竞速游戏：海风环线与落日峡谷双赛道、1 玩家 + 5 AI、三圈比赛、漂移集气、小喷、氮气、赛事奖牌、最佳幽灵车、分段计时、车库配色、本地纪录与 Hyper3D 模型工坊。
+
+在线试玩目标地址：**https://lihongcheng.github.io/kart-racer/**。首次上线需仓库管理员在 [Settings → Pages](https://github.com/lihongcheng/kart-racer/settings/pages) 将 Source 设为 **GitHub Actions**，然后在 [发布工作流](https://github.com/lihongcheng/kart-racer/actions/workflows/pages.yml) 运行或重跑部署。部署完成前请使用下方本地启动方式。
 
 ## 启动
 
@@ -43,6 +45,14 @@ npm run dev
 
 每条赛道、每种模式独立保存最佳总用时、最佳单圈与最高奖牌。个人纪录可筛选赛道/模式；最近 30 场之外的最佳成绩仍会保留。旧版成绩自动归入海风环线，继续保留旧存档备份。成绩仅存于当前浏览器，没有跨设备同步。
 
+## 最佳幽灵车与分段计时
+
+计时练习每条赛道保存**最佳三圈那一场**的轨迹。下一场出现半透明幽灵车，可在菜单或设置中关闭显示，仍继续记录新成绩；幽灵车不参与碰撞、排名和计圈。暂停会冻结回放，重赛从零开始，复位的 +2 秒罚时与瞬移会保留。
+
+每圈分为 S1、S2、S3 三段，地图标出 S1/S2 和终点。HUD 显示刚完成路段相对最佳同段的差值及累计差；负值表示更快。结算列出九段用时，标出进步最多、损失最多的路段。对比基准在出发时冻结，刷新纪录后也不会用本场成绩和自己比较。
+
+已有旧成绩保持不变；旧最佳没有历史轨迹时，需要刷新最佳才会生成幽灵车。每条赛道只保留一场最佳回放，最多 15 分钟/10,000 个采样点。超过容量仍保存成绩与完整分段。浏览器空间不足时会提示，当前页面仍可使用新纪录。清理浏览器站点数据会移除本地进度；本地站点与在线站点使用各自的存档。
+
 ## 赛车造型与 Hyper3D 接入
 
 当前赛车是重做的 **浪游者 Classic**：参考早期《跑跑卡丁车》的短宽车身、圆润车头、低座舱和大头盔比例，以独立网格原创建模。玩家与五名 AI 都使用新版，四轮可以独立转向/滚动，三种车库配色同步改变车身与车手。[前后侧面展示](docs/screenshots/classic-kart-views.png) / [造型记录](docs/kart-redesign.md)。
@@ -68,12 +78,16 @@ npm run preview        # 预览生产构建，http://127.0.0.1:4176
 node scripts/benchmark.mjs current  # 开发版：1080p 静止场景基准
 node scripts/benchmark-race.mjs     # 开发版：两档画质各 40 秒实际比赛渲染
 node scripts/benchmark-race.mjs canyon # 落日峡谷：1080p、两档画质各 40 秒
-node scripts/validate-production.mjs # 已启动 preview 时，验证独立静态包
+node scripts/benchmark-ghost.mjs    # 开发版：1080p 可见幽灵车，两档画质各 20 秒
+npm run build -- --base=/kart-racer/ # GitHub Pages 子路径构建
+node scripts/validate-production.mjs # 自启静态文件服务器，验证子路径构建
 ```
 
 浏览器测试使用已安装的 Chrome。没有 Chrome 时可安装 Playwright Chromium，并将 `playwright.config.ts` 的 `channel: 'chrome'` 删除。
 
-`dist/` 可部署到静态托管。生产静态站点通过已发布 manifest 展示工坊收藏；生成任务仍由独立本地服务管理。前端开发调试接口 `window.__kart` 在生产构建中不暴露。
+`dist/` 可部署到静态托管。根路径使用普通构建；仓库子路径使用 `--base=/kart-racer/`，本地预览同样传入 `npm run preview -- --base=/kart-racer/`。生产静态站点通过已发布 manifest 展示工坊收藏，不请求本地 API，也不展示开发者生成面板。前端开发调试接口 `window.__kart` 在生产构建中不暴露。
+
+[GitHub Actions](.github/workflows/pages.yml) 在 PR 上执行单元测试、构建和双赛道静态浏览器验收；主分支通过后上传并部署 Pages。CI 使用 Node.js 24 和 Playwright Chromium，构建只读，部署仅申请 Pages/OIDC 权限。公开站点首次启用后，后续推送 `main` 会自动发布。
 
 原始 GLB 位于未提交的 `assets/source/`。需要重新优化时先恢复原文件，再执行：
 
@@ -92,4 +106,4 @@ npm run assets:kart    # 仅重新导出当前 Classic 赛车，不需要 Rodin 
 - `tests/`：规则与服务测试、Playwright 浏览器验收。
 - [设计方案](docs/design-plan.md)、[验收记录](docs/validation.md)、[比赛结果](docs/race-validation.json)。
 
-当前已完成首个可玩版本、Classic 赛车重做、[第二阶段体验打磨](docs/phase2-validation.md)及[第三阶段双赛道与赛事奖牌](docs/phase3-validation.md)。地面高度来自样条投影，Rapier 处理车辆和护栏碰撞；尚未实现自由悬挂/跳跃、驾驶员骨骼动画、多人联机、道具赛、移动触控和用户生成模型自动装备。实际帧率与测试范围见验收记录。
+当前已完成首个可玩版本、Classic 赛车重做、[第二阶段体验打磨](docs/phase2-validation.md)、[第三阶段双赛道与赛事奖牌](docs/phase3-validation.md)及[第四阶段幽灵车、分段计时与发布配置](docs/phase4-validation.md)。地面高度来自样条投影，Rapier 处理车辆和护栏碰撞；尚未实现自由悬挂/跳跃、驾驶员骨骼动画、多人联机、道具赛、移动触控和用户生成模型自动装备。实际帧率与测试范围见验收记录。

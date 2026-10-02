@@ -9,15 +9,19 @@ import { buildEnvironment, makeKart, loadModel, replaceScenery, disposeObject, P
 import { RaceAudio } from './audio';
 import { DriftEffects } from './effects';
 import { animateKart, selectKartDetail } from './kart-animation';
+import { ReplayRecorder, REPLAY_REVISION, recordSector, replayPose, type Pose, type TimeRun } from './timing';
+import { makeGhost, positionGhost } from './ghost';
+import { assetUrl } from '../resources';
 
 export type Phase = 'menu' | 'countdown' | 'racing' | 'paused' | 'finished';
-export type Settings = { sound: boolean; quality: 'high' | 'low'; motion: boolean; difficulty: 'easy' | 'normal'; paint: number; trackId: TrackId };
+export type Settings = { sound: boolean; quality: 'high' | 'low'; motion: boolean; difficulty: 'easy' | 'normal'; paint: number; trackId: TrackId; ghost: boolean };
 export type Snapshot = {
   phase: Phase; countdown: number; elapsed: number; speed: number; lap: number; rank: number;
   charge: number; cans: number; boost: boolean; nitro: boolean; mini: boolean; miniProgress: number; drifting: boolean; driftTime: number;
   lapTimes: number[]; racers: { name: string; color: string; x: number; z: number; progress: number; finishedAt: number | null }[];
   wrongWay: boolean; offroad: boolean; hint: string; toast: string;
   ready: boolean; assets: number; fps: number; mode: RaceMode; trackId: TrackId;
+  sectorEnds: number[]; referenceEnds: number[]; ghostAvailable: boolean; replayLimited: boolean;
 };
 type Racer = {
   name: string; visual: KartVisual; body: RAPIER.RigidBody; drive: DriveState; progress: ProgressState;
@@ -31,6 +35,7 @@ export const initialSnapshot: Snapshot = {
   phase: 'menu', countdown: 3, elapsed: 0, speed: 0, lap: 1, rank: 1, charge: 0, cans: 0,
   boost: false, nitro: false, mini: false, miniProgress: 0, drifting: false, driftTime: 0, lapTimes: [], racers: [], wrongWay: false,
   offroad: false, hint: '准备出发', toast: '', ready: false, assets: 0, fps: 60, mode: 'race', trackId: 'coastline',
+  sectorEnds: [], referenceEnds: [], ghostAvailable: false, replayLimited: false,
 };
 
 export class KartGame {
@@ -68,6 +73,11 @@ export class KartGame {
   private finishedSent = false;
   private controls?: Controls;
   private garage = false;
+  private ghost?: KartVisual;
+  private availableRun?: TimeRun;
+  private referenceRun?: TimeRun;
+  private sectorEnds: number[] = [];
+  private recorder = new ReplayRecorder();
   private error: (message: string) => void;
   onFinish?: (snapshot: Snapshot) => void;
 
@@ -97,6 +107,7 @@ export class KartGame {
     this.scene.add(this.driftEffects.group);
     this.createBarriers();
     this.createRacers();
+    this.ghost = makeGhost(); this.scene.add(this.ghost.group);
     this.ready = true;
     this.camera.position.set(220, 260, 310); this.camera.lookAt(0, 0, 0);
     this.last = performance.now(); this.request = requestAnimationFrame(this.animate);
@@ -110,7 +121,7 @@ export class KartGame {
     // Asset errors remain visible in the library, while driving stays available.
     for (const spec of specs) {
       try {
-        const source = await loadModel(spec.url);
+        const source = await loadModel(assetUrl(spec.url));
         if (this.disposed) { disposeObject(source); return; }
         replaceScenery(spec.id === 'palm' ? this.environment.palms : this.environment.rocks, source, spec.id === 'palm' ? 9 : 4.8);
         this.assets++;
@@ -173,6 +184,9 @@ export class KartGame {
     this.mode = mode; this.elapsed = 0; this.countdown = 3.5; this.phase = 'countdown';
     this.finishedSent = false; this.keys.clear(); this.controls = undefined; this.autopilot = false; this.clock.reset();
     this.driftEffects.clear();
+    this.referenceRun = mode === 'time' ? this.availableRun : undefined;
+    this.sectorEnds = []; this.recorder = new ReplayRecorder();
+    if (this.ghost) this.ghost.group.visible = false;
     this.racers.forEach((r, i) => {
       const t = wrap(-(Math.floor(i / 2) * 4.5 + 4) / this.track.length), p = this.track.at(t);
       const pos = p.position.clone().addScaledVector(p.right, (i % 2 ? -1 : 1) * 2);
@@ -185,6 +199,7 @@ export class KartGame {
       r.visual.group.visible = i === 0 || mode === 'race';
     });
     this.cameraYaw = this.racers[0].drive.yaw;
+    if (mode === 'time') this.recorder.capture(0, this.playerPose(), true);
     void this.audio.unlock().catch(() => {});
     this.audio.beep(440); this.emit();
   }
@@ -241,6 +256,7 @@ export class KartGame {
   }
   private resetRacer(r: Racer, penalty: boolean) {
     if (this.elapsed - r.lastReset < 2) return;
+    if (penalty && this.mode === 'time') this.recorder.capture(this.elapsed, this.playerPose(), true);
     const p = this.track.at(wrap(r.progress.passed / CHECKPOINTS + 0.003));
     const occupied = this.racers.filter(other => other !== r && other.body.isEnabled());
     const offsets = [0, -3.5, 3.5];
@@ -252,7 +268,12 @@ export class KartGame {
     r.drive = { ...newDrive(p.yaw), cans: r.drive.cans, charge: r.drive.charge };
     r.previousYaw = p.yaw; r.t = wrap(r.progress.passed / CHECKPOINTS + 0.003);
     r.progress.previous = r.t; r.stuck = 0; r.lastReset = this.elapsed;
-    if (penalty) { this.elapsed += 2; this.notify('已回到赛道 · 用时 +2 秒'); }
+    if (penalty) {
+      if (this.mode === 'time') this.recorder.capture(this.elapsed, this.playerPose(), true, true);
+      this.elapsed += 2;
+      if (this.mode === 'time') this.recorder.capture(this.elapsed, this.playerPose(), true);
+      this.notify('已回到赛道 · 用时 +2 秒');
+    }
   }
   private tick(dt: number) {
     if (this.phase === 'countdown') {
@@ -290,6 +311,10 @@ export class KartGame {
       }
     }
     const player = this.racers[0];
+    if (this.mode === 'time') {
+      recordSector(this.sectorEnds, player.progress.passed, this.elapsed);
+      this.recorder.capture(this.elapsed, this.playerPose(), player.progress.finishedAt !== null);
+    }
     if (player.progress.finishedAt !== null && !this.finishedSent) {
       this.finishedSent = true; this.phase = 'finished'; this.keys.clear();
       this.audio.beep(1000, 0.4); this.emit(); this.onFinish?.(this.snapshot());
@@ -313,6 +338,7 @@ export class KartGame {
       if (this.phase === 'menu') active.flame.visible = false;
     }
     this.moveCamera(dt);
+    this.renderGhost();
     const player = this.racers[0];
     if (racing) this.driftEffects.update(dt, player.visual.group.position, player.drive, this.settings.quality === 'low');
     this.audio.update(player.drive.speed, player.drive.drifting, player.drive.boostTime > 0, this.phase === 'racing');
@@ -349,6 +375,26 @@ export class KartGame {
     this.camera.updateProjectionMatrix();
   }
   notify(message: string) { this.toast = message; this.toastUntil = performance.now() + 3000; }
+  setTimeReference(run?: TimeRun) {
+    this.availableRun = run?.trackId === this.track.id ? run : undefined;
+  }
+  completedTimeRun(): TimeRun | undefined {
+    if (this.phase !== 'finished' || this.mode !== 'time' || this.sectorEnds.length !== 9) return;
+    return { revision: REPLAY_REVISION, trackId: this.track.id, total: this.elapsed,
+      ends: [...this.sectorEnds], frames: this.recorder.limited ? null : this.recorder.frames };
+  }
+  private playerPose(): Pose {
+    const r = this.racers[0], d = r.drive;
+    return { x: r.x, y: r.body.translation().y - 0.75, z: r.z, yaw: d.yaw,
+      steer: d.steerVisual, speed: d.speed, flags: +d.drifting | (d.boostTime > 0 ? 2 : 0) | (d.miniTime > 0 ? 4 : 0) };
+  }
+  private renderGhost() {
+    if (!this.ghost) return;
+    const frames = this.referenceRun?.frames;
+    const pose = this.mode === 'time' && this.settings.ghost && this.phase !== 'menu' && frames ? replayPose(frames, this.elapsed) : null;
+    this.ghost.group.visible = !!pose;
+    if (pose) positionGhost(this.ghost, pose);
+  }
   snapshot(): Snapshot {
     const p = this.racers[0]; if (!p || this.disposed) return { ...initialSnapshot, trackId: this.track.id, ready: this.ready && !this.disposed };
     const active = this.racers.filter(r => r.body.isEnabled());
@@ -374,6 +420,8 @@ export class KartGame {
       offroad: p.offroad, hint: Math.abs(ahead) < 0.3 ? '直道 · 全速前进' : `${ahead > 0 ? '左' : '右'}弯 · Shift 漂移`,
       toast: performance.now() < this.toastUntil ? this.toast : '', ready: this.ready, assets: this.assets,
       fps: Math.round(this.fps), mode: this.mode, trackId: this.track.id,
+      sectorEnds: [...this.sectorEnds], referenceEnds: [...(this.referenceRun?.ends ?? [])],
+      ghostAvailable: !!this.referenceRun?.frames, replayLimited: this.recorder.limited,
     };
   }
   private emit() { this.publish(this.snapshot()); }
@@ -390,6 +438,9 @@ export class KartGame {
       diagnostics: () => ({
         renderer: this.renderer.info.render, memory: this.renderer.info.memory,
         effects: this.driftEffects.stats(), fov: this.camera.fov,
+        ghost: { visible: !!this.ghost?.group.visible, position: this.ghost?.group.position.toArray(),
+          samples: this.recorder.frames.length, limited: this.recorder.limited,
+          referenceTotal: this.referenceRun?.total, pose: this.referenceRun?.frames ? replayPose(this.referenceRun.frames, this.elapsed) : null },
         visuals: this.racers.map(r => ({
           position: r.visual.group.position.toArray(), yaw: r.visual.group.rotation.y,
           wheels: r.visual.wheels.map(w => w.children[0].quaternion.toArray()),

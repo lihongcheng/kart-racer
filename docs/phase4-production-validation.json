@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-02T05:29:16.080Z",
+  "browser": "149.0.7827.54",
+  "base": "/kart-racer/",
+  "models": {
+    "classic-kart": 200,
+    "kart": 200,
+    "palm": 200,
+    "rocks": 200
+  },
+  "circuits": [
+    {
+      "name": "海风环线",
+      "keyboardSpeedKmh": 54,
+      "pause": true,
+      "restart": true,
+      "singleCanvas": true
+    },
+    {
+      "name": "落日峡谷",
+      "keyboardSpeedKmh": 52,
+      "pause": true,
+      "restart": true,
+      "singleCanvas": true
+    }
+  ],
+  "trackPersists": true,
+  "staticWorkshop": true,
+  "debugHarness": false,
+  "forbiddenRequests": [],
+  "errors": []
+}

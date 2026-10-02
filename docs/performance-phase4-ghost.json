@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-02T05:30:23.107Z",
+  "browser": "149.0.7827.54",
+  "viewport": "1920x1080",
+  "headless": true,
+  "trackId": "canyon",
+  "mode": "time",
+  "measurements": [
+    {
+      "quality": "high",
+      "fps": 120.02,
+      "p95FrameMs": 9,
+      "frames": 2401,
+      "ghostVisibleFrames": 2401,
+      "drawCalls": 100.69970845481049,
+      "triangles": 99031,
+      "elapsedFrom": 2.0166666666666644,
+      "elapsedTo": 22.016666666666698,
+      "phase": "racing",
+      "recordedSamples": 221,
+      "memory": {
+        "geometries": 295,
+        "textures": 16
+      }
+    },
+    {
+      "quality": "low",
+      "fps": 120.01,
+      "p95FrameMs": 9.099999999998545,
+      "frames": 2401,
+      "ghostVisibleFrames": 2401,
+      "drawCalls": 100.71303623490212,
+      "triangles": 99048,
+      "elapsedFrom": 2.0166666666666644,
+      "elapsedTo": 22.016666666666698,
+      "phase": "racing",
+      "recordedSamples": 221,
+      "memory": {
+        "geometries": 295,
+        "textures": 15
+      }
+    }
+  ],
+  "errors": []
+}

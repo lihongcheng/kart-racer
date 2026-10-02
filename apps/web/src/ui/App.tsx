@@ -6,8 +6,10 @@ import { getTrack, isTrackId, TRACKS, type RaceTrack, type TrackId } from '../ga
 import { addResult, emptyResults, parseResults, resultKey, medalFor, nextMedal, MEDAL_LABELS, RESULTS_KEY, type RecordEntry, type Medal } from '../game/results';
 import { formatTime } from '../game/rules';
 import { AssetWorkshop } from './AssetWorkshop';
+import { emptyTiming, parseTiming, saveTimeRun, TIMING_KEY } from '../game/timing';
+import { TimingHUD, TimingResults } from './Timing';
 
-const defaults: Settings = { sound: true, quality: 'high', motion: true, difficulty: 'easy', paint: 0, trackId: 'coastline' };
+const defaults: Settings = { sound: true, quality: 'high', motion: true, difficulty: 'easy', paint: 0, trackId: 'coastline', ghost: true };
 function readSettings(): Settings {
   try {
     const s = JSON.parse(localStorage.getItem('coastline.settings') || '{}');
@@ -18,6 +20,7 @@ function readSettings(): Settings {
       difficulty: s.difficulty === 'normal' ? 'normal' : 'easy',
       paint: [0, 1, 2].includes(s.paint) ? s.paint : 0,
       trackId: isTrackId(s.trackId) ? s.trackId : 'coastline',
+      ghost: typeof s.ghost === 'boolean' ? s.ghost : true,
     };
   } catch { return defaults; }
 }
@@ -38,6 +41,10 @@ function Map({ track, state, compact = false }: { track: RaceTrack; state?: Snap
       return <circle key={r.name} cx={p.x} cy={p.y} r={r.name === '你' ? 5 : 3.5} fill={r.name === '你' ? '#eff581' : r.color} stroke="#244b43" strokeWidth="1.5" />;
     })}
     <circle cx={marker.x} cy={marker.y} r="4" fill="#f17e60" />
+    {!compact && [0, 1 / 3, 2 / 3].map((t, i) => {
+      const at = track.at(t).position, p = mapPosition(at.x, at.z);
+      return <g key={t}><circle cx={p.x} cy={p.y} r="3" fill="#e5f186" /><text x={p.x + 6} y={p.y - 6} className="sector-marker">{i === 0 ? '终点' : `S${i}`}</text></g>;
+    })}
   </svg>;
 }
 function MedalBadge({ medal }: { medal: Medal }) {
@@ -81,6 +88,10 @@ export default function App() {
   const [settings, setSettings] = useState<Settings>(readSettings);
   const [results, setResults] = useState(readRecords);
   const resultsRef = useRef(results);
+  const [timing, setTiming] = useState(() => {
+    try { return parseTiming(localStorage.getItem(TIMING_KEY), results); } catch { return emptyTiming(); }
+  });
+  const timingRef = useRef(timing);
   const [completion, setCompletion] = useState({ personalBest: false, lapBest: false });
   const [recordTrack, setRecordTrack] = useState<TrackId | 'all'>('all');
   const [recordMode, setRecordMode] = useState<RaceMode | 'all'>('all');
@@ -99,6 +110,16 @@ export default function App() {
     const next = addResult(resultsRef.current, entry);
     resultsRef.current = next; setResults(next);
     try { localStorage.setItem(RESULTS_KEY, JSON.stringify(next)); } catch { setStorageNotice('浏览器无法保存成绩，本次纪录仅在当前页面保留。'); }
+    const run = game.current?.completedTimeRun();
+    if (run) {
+      const nextTiming = saveTimeRun(timingRef.current, run, previous?.time);
+      if (nextTiming !== timingRef.current) {
+        timingRef.current = nextTiming; setTiming(nextTiming);
+        game.current?.setTimeReference(nextTiming.bests[result.trackId]);
+        try { localStorage.setItem(TIMING_KEY, JSON.stringify(nextTiming)); }
+        catch { setStorageNotice('浏览器空间不足或无法保存，最佳幽灵车与分段仅在当前页面保留。'); }
+      }
+    }
   };
   useEffect(() => {
     if (!host.current) return;
@@ -106,6 +127,7 @@ export default function App() {
     let engine: KartGame;
     try {
       engine = new KartGame(host.current, settings, setState, setError); game.current = engine;
+      engine.setTimeReference(timingRef.current.bests[settings.trackId]);
       engine.onFinish = result => onFinished.current(result);
       engine.initialize().then(() => {
         if (import.meta.env.DEV && !engine.disposed) (window as unknown as { __kart: unknown }).__kart = engine.debug();
@@ -182,6 +204,8 @@ export default function App() {
             {trackReady ? <ArrowUpRight size={30} /> : <LoaderCircle className="spin" />}
           </button>
           <p className="challenge-target">{targetText(track.id, mode, bestMedal)}</p>
+          {mode === 'time' && <div className="ghost-option"><button role="switch" aria-label="显示最佳幽灵车" aria-checked={settings.ghost} className={`toggle ${settings.ghost ? 'on' : ''}`} onClick={() => setOption('ghost', !settings.ghost)}><i /></button>
+            <span>最佳幽灵车<small>{timing.bests[track.id]?.frames ? `已记录 · ${formatTime(timing.bests[track.id]!.total)}` : best ? '刷新最佳后记录幽灵车' : '首次完赛后记录幽灵车'}</small></span></div>}
           <button className="help-link" onClick={() => setModal('help')}><Keyboard size={17} />第一次开？30 秒上手<ArrowRight size={15} /></button>
         </section> : <section className="hero garage-copy">
           <span className="eyebrow">YOUR RIDE / CLASSIC 01</span><h1>浪游者<span className="orange-dot">.</span></h1>
@@ -210,6 +234,7 @@ export default function App() {
         <div className="race-time"><span>总用时</span><strong>{formatTime(state.elapsed)}</strong><button className="icon" aria-label="暂停比赛" onClick={() => game.current?.pause()}><Pause size={20} /></button></div>
       </div>
       <div className="ranking">{state.racers.map((r, i) => <div key={r.name} className={r.name === '你' ? 'you' : ''}><b>{i + 1}</b><i style={{ background: r.color }} /><span>{r.name}</span>{r.name === '你' && <Flag size={12} />}</div>)}</div>
+      {state.mode === 'time' && <TimingHUD state={state} />}
       <div className="race-notice" aria-live="polite">{state.wrongWay ? '方向反了，掉头继续！' : state.offroad ? '驶出道路 · 回到柏油路提速' : state.toast}</div>
       <div className="turn-hint"><ChevronRight size={21} />{state.hint}</div>
       <div className="race-map"><span>{raceTrack.subtitle}</span><Map track={raceTrack} state={state} /></div>
@@ -225,12 +250,14 @@ export default function App() {
     {state.phase === 'paused' && <Modal title="歇一下，风会等你。" eyebrow="RACE PAUSED" close={() => game.current?.pause()}>
       <p className="muted">比赛已暂停，计时也停下了。</p><button className="primary full" onClick={() => game.current?.pause()}>继续比赛<ArrowRight size={18} /></button><button className="secondary full" onClick={() => game.current?.start(state.mode)}><RotateCcw size={17} />重新开始</button><button className="text-button full" onClick={menu}>返回俱乐部</button>
     </Modal>}
-    {state.phase === 'finished' && <Modal title={state.mode === 'time' ? '与自己，再快一点。' : state.rank === 1 ? '漂亮！冲线第一。' : '这一程，跑得尽兴。'} eyebrow={`FINISH / ${raceTrack.subtitle}`} close={menu}>
+    {state.phase === 'finished' && <Modal title={state.mode === 'time' ? '与自己，再快一点。' : state.rank === 1 ? '漂亮！冲线第一。' : '这一程，跑得尽兴。'} eyebrow={`FINISH / ${raceTrack.subtitle}`} close={menu} wide={state.mode === 'time'}>
+      <div className={state.mode === 'time' ? 'time-result-layout' : ''}><div>
       <div className="result-hero"><Trophy size={40} /><strong>{state.mode === 'time' ? '3/3' : `#${state.rank}`}</strong><span>{raceTrack.name}<br />{state.mode === 'time' ? '计时练习完成' : '三圈竞速完成'}</span><MedalBadge medal={resultMedal} /></div>
       {(completion.personalBest || completion.lapBest) && <p className="personal-best">{completion.personalBest ? '刷新个人最佳总用时' : '刷新个人最佳单圈'}{completion.personalBest && completion.lapBest ? ' · 单圈也更快了！' : '！'}</p>}
       <p className="result-target">{targetText(state.trackId, state.mode, resultMedal)}</p>
       <div className="result-times"><div><span>完赛用时</span><b>{formatTime(state.elapsed)}</b></div><div><span>最佳圈速</span><b>{formatTime(Math.min(...state.lapTimes))}</b></div></div>
       <div className="lap-list">{state.lapTimes.map((t, i) => <div key={i}><span>LAP 0{i + 1}</span><b>{formatTime(t)}</b>{t === Math.min(...state.lapTimes) && <span className="best-tag">BEST</span>}</div>)}</div>
+      </div>{state.mode === 'time' && <TimingResults state={state} />}</div>
       <button className="primary full" onClick={() => game.current?.start(state.mode)}>再跑一场<RotateCcw size={17} /></button><button className="text-button full" onClick={menu}>返回俱乐部</button>
     </Modal>}
     {modal === 'help' && <Modal title="上手，只要一个弯。" eyebrow="QUICK START" close={closeModal}>
@@ -240,6 +267,7 @@ export default function App() {
     {modal === 'settings' && <Modal title="按你的节奏来。" eyebrow="PREFERENCES" close={closeModal}>
       <div className="setting-row"><div><b>游戏音效</b><p>引擎、漂移和倒计时</p></div><button role="switch" aria-checked={settings.sound} className={`toggle ${settings.sound ? 'on' : ''}`} onClick={() => setOption('sound', !settings.sound)} aria-label="游戏音效"><i /></button></div>
       <div className="setting-row"><div><b>加速镜头效果</b><p>氮气时扩大视野</p></div><button role="switch" aria-checked={settings.motion} className={`toggle ${settings.motion ? 'on' : ''}`} onClick={() => setOption('motion', !settings.motion)} aria-label="加速镜头效果"><i /></button></div>
+      <div className="setting-row"><div><b>最佳幽灵车</b><p>计时模式显示最佳三圈轨迹，始终记录新成绩</p></div><button role="switch" aria-checked={settings.ghost} className={`toggle ${settings.ghost ? 'on' : ''}`} onClick={() => setOption('ghost', !settings.ghost)} aria-label="显示最佳幽灵车"><i /></button></div>
       <div className="setting-row"><div><b>画面质量</b><p>流畅模式降低阴影和分辨率</p></div><select aria-label="画面质量" value={settings.quality} onChange={e => setOption('quality', e.target.value as Settings['quality'])}><option value="high">精致</option><option value="low">流畅</option></select></div>
       <div className="setting-row"><div><b>对手难度</b><p>下一场比赛使用此设置</p></div><select aria-label="对手难度" value={settings.difficulty} onChange={e => setOption('difficulty', e.target.value as Settings['difficulty'])}><option value="easy">轻松兜风</option><option value="normal">认真较量</option></select></div>
       <p className="small muted">设置会自动保存在当前浏览器。</p>
