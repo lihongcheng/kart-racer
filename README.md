@@ -87,7 +87,7 @@ node scripts/validate-production.mjs # 自启静态文件服务器，验证子�
 
 `dist/` 可部署到静态托管。根路径使用普通构建；仓库子路径使用 `--base=/kart-racer/`，本地预览同样传入 `npm run preview -- --base=/kart-racer/`。生产静态站点通过已发布 manifest 展示工坊收藏，不请求本地 API，也不展示开发者生成面板。前端开发调试接口 `window.__kart` 在生产构建中不暴露。
 
-[GitHub Actions](.github/workflows/pages.yml) 在 PR 上执行单元测试、构建和双赛道静态浏览器验收；主分支通过后上传并部署 Pages。CI 使用 Node.js 24 和 Playwright Chromium，构建只读，部署仅申请 Pages/OIDC 权限。公开站点首次启用后，后续推送 `main` 会自动发布。
+[GitHub Actions](.github/workflows/pages.yml) 在 PR 上执行单元测试、构建和双赛道静态浏览器验收；主分支通过后上传并部署 Pages。CI 固定 Ubuntu 24.04，项目与 Action 均使用 Node.js 24；Playwright Chromium 在无 GPU 的运行器中使用 SwiftShader 软件渲染。构建只读，部署仅申请 Pages/OIDC 权限。公开站点首次启用后，后续推送 `main` 会自动发布。浏览器验收失败时，检查注释会显示具体错误，`static-validation` 附件中的 `test-results/production/` 保留诊断和截图。
 
 原始 GLB 位于未提交的 `assets/source/`。需要重新优化时先恢复原文件，再执行：
 
