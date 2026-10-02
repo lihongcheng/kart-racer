@@ -7,7 +7,7 @@
 需要 **Node.js 22.13+**（内置 SQLite）及 npm，推荐 Node.js 24 LTS。验证环境为 Node.js 26.8.2。
 
 ```sh
-cd /Users/bytedance/Documents/games/kart-racer
+cd kart-racer
 npm install
 npm run dev
 ```
