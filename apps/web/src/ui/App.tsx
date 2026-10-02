@@ -8,6 +8,7 @@ import { formatTime } from '../game/rules';
 import { AssetWorkshop } from './AssetWorkshop';
 import { emptyTiming, parseTiming, saveTimeRun, TIMING_KEY } from '../game/timing';
 import { TimingHUD, TimingResults } from './Timing';
+import { LESSONS, parseTraining, TRAINING_KEY } from '../game/training';
 
 const defaults: Settings = { sound: true, quality: 'high', motion: true, difficulty: 'easy', paint: 0, trackId: 'coastline', ghost: true };
 function readSettings(): Settings {
@@ -92,6 +93,10 @@ export default function App() {
     try { return parseTiming(localStorage.getItem(TIMING_KEY), results); } catch { return emptyTiming(); }
   });
   const timingRef = useRef(timing);
+  const [trainingDone, setTrainingDone] = useState(() => {
+    try { return parseTraining(localStorage.getItem(TRAINING_KEY)); } catch { return 0; }
+  });
+  const trainingDoneRef = useRef(trainingDone);
   const [completion, setCompletion] = useState({ personalBest: false, lapBest: false });
   const [recordTrack, setRecordTrack] = useState<TrackId | 'all'>('all');
   const [recordMode, setRecordMode] = useState<RaceMode | 'all'>('all');
@@ -103,6 +108,7 @@ export default function App() {
   const [storageNotice, setStorageNotice] = useState('');
   const onFinished = useRef((result: Snapshot) => {});
   onFinished.current = result => {
+    if (result.training) return;
     const entry: RecordEntry = { trackId: result.trackId, date: new Date().toISOString(), time: result.elapsed,
       bestLap: Math.min(...result.lapTimes), rank: result.rank, mode: result.mode };
     const previous = resultsRef.current.bests[resultKey(entry.trackId, entry.mode)];
@@ -129,6 +135,12 @@ export default function App() {
       engine = new KartGame(host.current, settings, setState, setError); game.current = engine;
       engine.setTimeReference(timingRef.current.bests[settings.trackId]);
       engine.onFinish = result => onFinished.current(result);
+      engine.onTrainingProgress = completed => {
+        const next = Math.max(trainingDoneRef.current, completed);
+        trainingDoneRef.current = next; setTrainingDone(next);
+        try { localStorage.setItem(TRAINING_KEY, JSON.stringify({ version: 1, completed: next })); }
+        catch { setStorageNotice('浏览器无法保存训练进度，本次课目仍可继续。'); }
+      };
       engine.initialize().then(() => {
         if (import.meta.env.DEV && !engine.disposed) (window as unknown as { __kart: unknown }).__kart = engine.debug();
       }).catch(e => { if (!engine.disposed) setError(`无法启动 3D 场景：${e.message}`); });
@@ -168,6 +180,10 @@ export default function App() {
     setPendingStart(false);
   };
   const menu = () => { game.current?.menu(); setTab('race'); };
+  const train = (fresh = false) => {
+    setModal(null); setPendingStart(false);
+    game.current?.startTraining(fresh ? 0 : trainingDoneRef.current);
+  };
   const setOption = <K extends keyof Settings>(key: K, value: Settings[K]) => setSettings(s => ({ ...s, [key]: value }));
 
   return <div className={`app theme-${track.theme} ${isMenu ? 'in-menu' : 'in-race'} ${tab === 'garage' && isMenu ? 'in-garage' : ''}`}>
@@ -206,7 +222,8 @@ export default function App() {
           <p className="challenge-target">{targetText(track.id, mode, bestMedal)}</p>
           {mode === 'time' && <div className="ghost-option"><button role="switch" aria-label="显示最佳幽灵车" aria-checked={settings.ghost} className={`toggle ${settings.ghost ? 'on' : ''}`} onClick={() => setOption('ghost', !settings.ghost)}><i /></button>
             <span>最佳幽灵车<small>{timing.bests[track.id]?.frames ? `已记录 · ${formatTime(timing.bests[track.id]!.total)}` : best ? '刷新最佳后记录幽灵车' : '首次完赛后记录幽灵车'}</small></span></div>}
-          <button className="help-link" onClick={() => setModal('help')}><Keyboard size={17} />第一次开？30 秒上手<ArrowRight size={15} /></button>
+          <div className="learn-links"><button className="help-link" disabled={!trackReady || !!error} onClick={() => train()}><Keyboard size={17} />{trainingDone === 4 ? '重练驾驶课' : trainingDone ? `继续实操 · ${trainingDone}/4` : '驾驶实操 · 四步上手'}<ArrowRight size={15} /></button>
+          <button className="text-button" onClick={() => setModal('help')}>操作说明</button></div>
         </section> : <section className="hero garage-copy">
           <span className="eyebrow">YOUR RIDE / CLASSIC 01</span><h1>浪游者<span className="orange-dot">.</span></h1>
           <p className="hero-description">圆润车头，宽胎低坐姿。<br />开着记忆里的小车，再漂一个弯。</p>
@@ -229,12 +246,19 @@ export default function App() {
       <footer className="menu-footer"><span>少一点公式，多一点风。</span><span><Waves size={15} /> BUILT FOR THE JOY OF DRIVING</span><span>VOL. 02 — TWO HORIZONS</span></footer>
     </>}
     {!isMenu && <div className="hud">
-      <div className="race-top"><div className="position"><strong>{state.rank}</strong><span>/ {state.mode === 'race' ? 6 : 1}<small>当前名次</small></span></div>
-        <div className="race-lap"><span>{raceTrack.name}</span><strong>LAP {state.lap}<i>/ 3</i></strong></div>
+      <div className="race-top"><div className="position"><strong>{state.training ? Math.min(4, state.training.completed + 1) : state.rank}</strong><span>/ {state.training ? 4 : state.mode === 'race' ? 6 : 1}<small>{state.training ? '当前课目' : '当前名次'}</small></span></div>
+        <div className="race-lap"><span>{raceTrack.name}</span><strong>{state.training ? '驾驶实操' : <>LAP {state.lap}<i>/ 3</i></>}</strong></div>
         <div className="race-time"><span>总用时</span><strong>{formatTime(state.elapsed)}</strong><button className="icon" aria-label="暂停比赛" onClick={() => game.current?.pause()}><Pause size={20} /></button></div>
       </div>
-      <div className="ranking">{state.racers.map((r, i) => <div key={r.name} className={r.name === '你' ? 'you' : ''}><b>{i + 1}</b><i style={{ background: r.color }} /><span>{r.name}</span>{r.name === '你' && <Flag size={12} />}</div>)}</div>
-      {state.mode === 'time' && <TimingHUD state={state} />}
+      {!state.training && <div className="ranking">{state.racers.map((r, i) => <div key={r.name} className={r.name === '你' ? 'you' : ''}><b>{i + 1}</b><i style={{ background: r.color }} /><span>{r.name}</span>{r.name === '你' && <Flag size={12} />}</div>)}</div>}
+      {state.training && <aside className="training-card" aria-label="驾驶实操">
+        <span className="eyebrow">DRIVING SCHOOL · 随时按 R 复位</span>
+        <ol>{LESSONS.map((lesson, i) => <li key={lesson} className={i < state.training!.completed ? 'done' : i === state.training!.completed ? 'current' : ''}>{i < state.training!.completed ? <Check size={13} /> : <span>{i + 1}</span>}{lesson}</li>)}</ol>
+        <p role="status">{state.training.hint}</p>
+        <progress aria-label="当前课目进度" max={1} value={state.training.progress} />
+        <small>教学氮气免费补给；比赛中需持续漂移集气。训练不计成绩。</small>
+      </aside>}
+      {state.mode === 'time' && !state.training && <TimingHUD state={state} />}
       <div className="race-notice" aria-live="polite">{state.wrongWay ? '方向反了，掉头继续！' : state.offroad ? '驶出道路 · 回到柏油路提速' : state.toast}</div>
       <div className="turn-hint"><ChevronRight size={21} />{state.hint}</div>
       <div className="race-map"><span>{raceTrack.subtitle}</span><Map track={raceTrack} state={state} /></div>
@@ -248,9 +272,14 @@ export default function App() {
       {state.phase === 'countdown' && <div className="countdown"><span>READY TO ROLL</span><b key={state.countdown}>{state.countdown > 3 ? 'READY' : state.countdown}</b><p>按住 W 或 ↑，准备出发</p></div>}
     </div>}
     {state.phase === 'paused' && <Modal title="歇一下，风会等你。" eyebrow="RACE PAUSED" close={() => game.current?.pause()}>
-      <p className="muted">比赛已暂停，计时也停下了。</p><button className="primary full" onClick={() => game.current?.pause()}>继续比赛<ArrowRight size={18} /></button><button className="secondary full" onClick={() => game.current?.start(state.mode)}><RotateCcw size={17} />重新开始</button><button className="text-button full" onClick={menu}>返回俱乐部</button>
+      <p className="muted">{state.training ? '训练已暂停，已完成课目会保留。' : '比赛已暂停，计时也停下了。'}</p><button className="primary full" onClick={() => game.current?.pause()}>{state.training ? '继续训练' : '继续比赛'}<ArrowRight size={18} /></button><button className="secondary full" onClick={() => game.current?.restart()}><RotateCcw size={17} />{state.training ? '重试当前课目' : '重新开始'}</button>{state.training && <button className="secondary full" onClick={() => train(true)}>从第一课重练</button>}<button className="text-button full" onClick={menu}>返回俱乐部</button>
     </Modal>}
-    {state.phase === 'finished' && <Modal title={state.mode === 'time' ? '与自己，再快一点。' : state.rank === 1 ? '漂亮！冲线第一。' : '这一程，跑得尽兴。'} eyebrow={`FINISH / ${raceTrack.subtitle}`} close={menu} wide={state.mode === 'time'}>
+    {state.phase === 'finished' && state.training && <Modal title="四步完成，去追风吧。" eyebrow="DRIVING SCHOOL / COMPLETE" close={menu}>
+      <div className="training-complete">{LESSONS.map(lesson => <p key={lesson}><Check size={18} />{lesson}</p>)}</div>
+      <p className="muted">你已完成加速、漂移、小喷和氮气实操。接下来试试轻松兜风，或在计时练习中挑战自己。</p>
+      <button className="primary full" onClick={menu}>返回俱乐部，选择比赛<ArrowRight size={18} /></button><button className="secondary full" onClick={() => train(true)}>再练一次<RotateCcw size={17} /></button>
+    </Modal>}
+    {state.phase === 'finished' && !state.training && <Modal title={state.mode === 'time' ? '与自己，再快一点。' : state.rank === 1 ? '漂亮！冲线第一。' : '这一程，跑得尽兴。'} eyebrow={`FINISH / ${raceTrack.subtitle}`} close={menu} wide={state.mode === 'time'}>
       <div className={state.mode === 'time' ? 'time-result-layout' : ''}><div>
       <div className="result-hero"><Trophy size={40} /><strong>{state.mode === 'time' ? '3/3' : `#${state.rank}`}</strong><span>{raceTrack.name}<br />{state.mode === 'time' ? '计时练习完成' : '三圈竞速完成'}</span><MedalBadge medal={resultMedal} /></div>
       {(completion.personalBest || completion.lapBest) && <p className="personal-best">{completion.personalBest ? '刷新个人最佳总用时' : '刷新个人最佳单圈'}{completion.personalBest && completion.lapBest ? ' · 单圈也更快了！' : '！'}</p>}
@@ -263,13 +292,14 @@ export default function App() {
     {modal === 'help' && <Modal title="上手，只要一个弯。" eyebrow="QUICK START" close={closeModal}>
       <div className="tutorial"><div><span>01</span><div><h3>踩油门，去感受速度</h3><p><Key>W / ↑</Key> 加速 <Key>S / ↓</Key> 刹车<br /><Key>A D / ← →</Key> 控制方向</p></div></div><div><span>02</span><div><h3>按住漂移，顺势过弯</h3><p>达到一定速度后，按住 <Key>SHIFT</Key> 并转向。小喷进度条亮起后，松开 <Key>SHIFT</Key> 触发小喷；持续漂移还能积攒氮气。</p></div></div><div><span>03</span><div><h3>出弯加速，甩开对手</h3><p>氮气充满一罐后，按 <Key>SPACE</Key> 加速。迷路或卡住时按 <Key>R</Key> 复位，用时 +2 秒。</p></div></div></div>
       <button className="primary full" onClick={acknowledge}>{pendingStart ? '明白了，出发！' : '准备好了'}<ArrowUpRight size={20} /></button>
+      <button className="secondary full" disabled={!trackReady || !!error} onClick={() => train()}>先练四步驾驶实操<Keyboard size={18} /></button>
     </Modal>}
     {modal === 'settings' && <Modal title="按你的节奏来。" eyebrow="PREFERENCES" close={closeModal}>
       <div className="setting-row"><div><b>游戏音效</b><p>引擎、漂移和倒计时</p></div><button role="switch" aria-checked={settings.sound} className={`toggle ${settings.sound ? 'on' : ''}`} onClick={() => setOption('sound', !settings.sound)} aria-label="游戏音效"><i /></button></div>
       <div className="setting-row"><div><b>加速镜头效果</b><p>氮气时扩大视野</p></div><button role="switch" aria-checked={settings.motion} className={`toggle ${settings.motion ? 'on' : ''}`} onClick={() => setOption('motion', !settings.motion)} aria-label="加速镜头效果"><i /></button></div>
       <div className="setting-row"><div><b>最佳幽灵车</b><p>计时模式显示最佳三圈轨迹，始终记录新成绩</p></div><button role="switch" aria-checked={settings.ghost} className={`toggle ${settings.ghost ? 'on' : ''}`} onClick={() => setOption('ghost', !settings.ghost)} aria-label="显示最佳幽灵车"><i /></button></div>
       <div className="setting-row"><div><b>画面质量</b><p>流畅模式降低阴影和分辨率</p></div><select aria-label="画面质量" value={settings.quality} onChange={e => setOption('quality', e.target.value as Settings['quality'])}><option value="high">精致</option><option value="low">流畅</option></select></div>
-      <div className="setting-row"><div><b>对手难度</b><p>下一场比赛使用此设置</p></div><select aria-label="对手难度" value={settings.difficulty} onChange={e => setOption('difficulty', e.target.value as Settings['difficulty'])}><option value="easy">轻松兜风</option><option value="normal">认真较量</option></select></div>
+      <div className="setting-row"><div><b>对手难度</b><p>{settings.difficulty === 'easy' ? '轻松：对手巡航较慢，跟车留距更大' : '普通：对手巡航更快，更积极寻找超车空间'}<br />下一场竞速生效；计时奖牌目标不变</p></div><select aria-label="对手难度" value={settings.difficulty} onChange={e => setOption('difficulty', e.target.value as Settings['difficulty'])}><option value="easy">轻松兜风</option><option value="normal">认真较量</option></select></div>
       <p className="small muted">设置会自动保存在当前浏览器。</p>
     </Modal>}
     {modal === 'records' && <Modal title="每一圈，都算数。" eyebrow="PERSONAL RECORDS" close={closeModal} wide>

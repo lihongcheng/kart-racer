@@ -34,8 +34,8 @@ jobs:
         with:
           name: static-validation
           path: |
-            docs/phase4-production-validation.json
-            docs/screenshots/phase4-production-*.png
+            docs/phase5-production-validation.json
+            docs/screenshots/phase5-production-*.png
             test-results/production/
       - uses: actions/upload-pages-artifact@v5.0.0
         if: github.event_name != 'pull_request'

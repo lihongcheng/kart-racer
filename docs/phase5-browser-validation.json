@@ -1,0 +1,286 @@
+{
+  "command": "npm run test:browser",
+  "stats": {
+    "startTime": "2026-10-02T07:39:17.557Z",
+    "duration": 130330.602,
+    "expected": 17,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "cases": [
+    {
+      "file": "tests/browser/circuits.spec.ts",
+      "title": "switch circuits repeatedly, preserve garage settings, drive canyon with keyboard and reset",
+      "passed": true,
+      "tests": [
+        {
+          "status": "expected",
+          "attempts": [
+            {
+              "status": "passed",
+              "durationMs": 14389
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tests/browser/circuits.spec.ts",
+      "title": "canyon ten full races, both difficulties, all AI finish, batched completions and isolated records",
+      "passed": true,
+      "tests": [
+        {
+          "status": "expected",
+          "attempts": [
+            {
+              "status": "passed",
+              "durationMs": 15110
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tests/browser/circuits.spec.ts",
+      "title": "legacy records migrate, invalid settings fall back and first v2 write preserves history",
+      "passed": true,
+      "tests": [
+        {
+          "status": "expected",
+          "attempts": [
+            {
+              "status": "passed",
+              "durationMs": 3837
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tests/browser/circuits.spec.ts",
+      "title": "switching during a delayed model load never restores the disposed scene",
+      "passed": true,
+      "tests": [
+        {
+          "status": "expected",
+          "attempts": [
+            {
+              "status": "passed",
+              "durationMs": 3526
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tests/browser/game.spec.ts",
+      "title": "A/left and D/right match the driver view, including drift",
+      "passed": true,
+      "tests": [
+        {
+          "status": "expected",
+          "attempts": [
+            {
+              "status": "passed",
+              "durationMs": 11269
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tests/browser/game.spec.ts",
+      "title": "keyboard driving, drift release, reset, pause and replay",
+      "passed": true,
+      "tests": [
+        {
+          "status": "expected",
+          "attempts": [
+            {
+              "status": "passed",
+              "durationMs": 7642
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tests/browser/game.spec.ts",
+      "title": "pause freezes drift visuals, restart clears effects and disabling motion fixes the FOV",
+      "passed": true,
+      "tests": [
+        {
+          "status": "expected",
+          "attempts": [
+            {
+              "status": "passed",
+              "durationMs": 7064
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tests/browser/game.spec.ts",
+      "title": "garage paints, asset previews and settings persist across reload",
+      "passed": true,
+      "tests": [
+        {
+          "status": "expected",
+          "attempts": [
+            {
+              "status": "passed",
+              "durationMs": 6402
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tests/browser/game.spec.ts",
+      "title": "ten full races, both AI difficulties, saved results and solo practice",
+      "passed": true,
+      "tests": [
+        {
+          "status": "expected",
+          "attempts": [
+            {
+              "status": "passed",
+              "durationMs": 9564
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tests/browser/timing.spec.ts",
+      "title": "coastline: full ghost, nine splits, frozen reference, reset, restart and persistence",
+      "passed": true,
+      "tests": [
+        {
+          "status": "expected",
+          "attempts": [
+            {
+              "status": "passed",
+              "durationMs": 5008
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tests/browser/timing.spec.ts",
+      "title": "canyon: full ghost, nine splits, frozen reference, reset, restart and persistence",
+      "passed": true,
+      "tests": [
+        {
+          "status": "expected",
+          "attempts": [
+            {
+              "status": "passed",
+              "durationMs": 5102
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tests/browser/timing.spec.ts",
+      "title": "legacy fastest remains intact without an invented ghost",
+      "passed": true,
+      "tests": [
+        {
+          "status": "expected",
+          "attempts": [
+            {
+              "status": "passed",
+              "durationMs": 2093
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tests/browser/timing.spec.ts",
+      "title": "storage failure retains the new baseline in this page and reports the failure",
+      "passed": true,
+      "tests": [
+        {
+          "status": "expected",
+          "attempts": [
+            {
+              "status": "passed",
+              "durationMs": 2051
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tests/browser/timing.spec.ts",
+      "title": "long runs keep all splits, reset jumps are encoded and corrupt data does not prevent play",
+      "passed": true,
+      "tests": [
+        {
+          "status": "expected",
+          "attempts": [
+            {
+              "status": "passed",
+              "durationMs": 3836
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tests/browser/training-traffic.spec.ts",
+      "title": "coastline: keyboard course, pause, reset, saved resume and record isolation",
+      "passed": true,
+      "tests": [
+        {
+          "status": "expected",
+          "attempts": [
+            {
+              "status": "passed",
+              "durationMs": 14094
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tests/browser/training-traffic.spec.ts",
+      "title": "canyon: keyboard course, pause, reset, saved resume and record isolation",
+      "passed": true,
+      "tests": [
+        {
+          "status": "expected",
+          "attempts": [
+            {
+              "status": "passed",
+              "durationMs": 15580
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "tests/browser/training-traffic.spec.ts",
+      "title": "AI passes a slow player, follows blocked traffic and handles the finish seam",
+      "passed": true,
+      "tests": [
+        {
+          "status": "expected",
+          "attempts": [
+            {
+              "status": "passed",
+              "durationMs": 2276
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

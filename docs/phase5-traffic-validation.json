@@ -1,0 +1,714 @@
+[
+  {
+    "scenario": "slow-player",
+    "samples": [
+      [
+        {
+          "name": "你",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -2.1740367328227435,
+          "t": 0.10784722575019579,
+          "offset": 0.16889477228163008,
+          "speed": 2.6145922442699514,
+          "ai": {
+            "lane": 0,
+            "targetLane": 0,
+            "holdUntil": 0,
+            "nextDecision": 0,
+            "action": "cruise",
+            "targetSpeed": 0,
+            "boostSafe": true,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "椰子汽水",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -2.3421020171580698,
+          "t": 0.09618616800597962,
+          "offset": -0.3500462691041238,
+          "speed": 7.489995590056992,
+          "ai": {
+            "lane": -2.338333333333331,
+            "targetLane": -3.397505208411101,
+            "holdUntil": 3.0166666666666666,
+            "nextDecision": 1.050000000000001,
+            "action": "pass",
+            "targetSpeed": 7.343863273446837,
+            "boostSafe": false,
+            "laneChanges": 1,
+            "overtakes": 0,
+            "passTarget": 0
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        }
+      ],
+      [
+        {
+          "name": "你",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -2.1740367328227435,
+          "t": 0.10976393526955333,
+          "offset": 0.289500000584602,
+          "speed": 0.8545117759022853,
+          "ai": {
+            "lane": 0,
+            "targetLane": 0,
+            "holdUntil": 0,
+            "nextDecision": 0,
+            "action": "cruise",
+            "targetSpeed": 0,
+            "boostSafe": true,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "椰子汽水",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -2.6460369537879123,
+          "t": 0.10268119712109972,
+          "offset": -2.292460401282426,
+          "speed": 4.577817981719526,
+          "ai": {
+            "lane": -3.397505208411101,
+            "targetLane": -3.397505208411101,
+            "holdUntil": 3.0166666666666666,
+            "nextDecision": 2.116666666666665,
+            "action": "pass",
+            "targetSpeed": 4.596670804347813,
+            "boostSafe": false,
+            "laneChanges": 1,
+            "overtakes": 0,
+            "passTarget": 0
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        }
+      ],
+      [
+        {
+          "name": "你",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -2.1740367328227435,
+          "t": 0.11040117222479351,
+          "offset": 0.33478703082807837,
+          "speed": 0.2792750047828841,
+          "ai": {
+            "lane": 0,
+            "targetLane": 0,
+            "holdUntil": 0,
+            "nextDecision": 0,
+            "action": "cruise",
+            "targetSpeed": 0,
+            "boostSafe": true,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "椰子汽水",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -2.2287159701814825,
+          "t": 0.11597816547471751,
+          "offset": -4.1374934530896486,
+          "speed": 18.364862360171646,
+          "ai": {
+            "lane": -3.397505208411101,
+            "targetLane": -3.397505208411101,
+            "holdUntil": 3.0166666666666666,
+            "nextDecision": 3.1999999999999944,
+            "action": "pass",
+            "targetSpeed": 21.113567338523865,
+            "boostSafe": false,
+            "laneChanges": 1,
+            "overtakes": 0,
+            "passTarget": 0
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        }
+      ],
+      [
+        {
+          "name": "你",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -2.1740367328227435,
+          "t": 0.11060756516329595,
+          "offset": 0.34936315649542393,
+          "speed": 0.09296257528949238,
+          "ai": {
+            "lane": 0,
+            "targetLane": 0,
+            "holdUntil": 0,
+            "nextDecision": 0,
+            "action": "cruise",
+            "targetSpeed": 0,
+            "boostSafe": true,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "椰子汽水",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -2.485476826349544,
+          "t": 0.1418190214984888,
+          "offset": -3.0972708958263997,
+          "speed": 20.079959333616234,
+          "ai": {
+            "lane": -3.397505208411101,
+            "targetLane": -3.397505208411101,
+            "holdUntil": 3.0166666666666666,
+            "nextDecision": 4.0666666666666575,
+            "action": "cruise",
+            "targetSpeed": 20.407838623558817,
+            "boostSafe": false,
+            "laneChanges": 1,
+            "overtakes": 1,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": "finish-seam",
+    "samples": [
+      [
+        {
+          "name": "你",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -1.5583339343992013,
+          "t": 0.01780802115898148,
+          "offset": 0.004640178161104009,
+          "speed": 2.6629684738299306,
+          "ai": {
+            "lane": 0,
+            "targetLane": 0,
+            "holdUntil": 0,
+            "nextDecision": 0,
+            "action": "cruise",
+            "targetSpeed": 0,
+            "boostSafe": true,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "椰子汽水",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -1.3241195323007802,
+          "t": 0.006045755244722016,
+          "offset": 0.6558608888332513,
+          "speed": 7.615932336049664,
+          "ai": {
+            "lane": 2.299999999999998,
+            "targetLane": 3.4000236634904644,
+            "holdUntil": 3.0166666666666666,
+            "nextDecision": 1.050000000000001,
+            "action": "pass",
+            "targetSpeed": 7.465866544313366,
+            "boostSafe": false,
+            "laneChanges": 1,
+            "overtakes": 0,
+            "passTarget": 0
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        }
+      ],
+      [
+        {
+          "name": "你",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -1.5583339343992013,
+          "t": 0.019756013253921272,
+          "offset": 0.009598279732762982,
+          "speed": 0.8703222983574675,
+          "ai": {
+            "lane": 0,
+            "targetLane": 0,
+            "holdUntil": 0,
+            "nextDecision": 0,
+            "action": "cruise",
+            "targetSpeed": 0,
+            "boostSafe": true,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "椰子汽水",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -1.1408009966272328,
+          "t": 0.012557506551300848,
+          "offset": 2.4953913579210925,
+          "speed": 4.6371867365696895,
+          "ai": {
+            "lane": 3.4000236634904644,
+            "targetLane": 3.4000236634904644,
+            "holdUntil": 3.0166666666666666,
+            "nextDecision": 2.116666666666665,
+            "action": "pass",
+            "targetSpeed": 4.459709472137156,
+            "boostSafe": false,
+            "laneChanges": 1,
+            "overtakes": 0,
+            "passTarget": 0
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        }
+      ],
+      [
+        {
+          "name": "你",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -1.5583339343992013,
+          "t": 0.020388667447973255,
+          "offset": 0.011544743653269164,
+          "speed": 0.28970506382765054,
+          "ai": {
+            "lane": 0,
+            "targetLane": 0,
+            "holdUntil": 0,
+            "nextDecision": 0,
+            "action": "cruise",
+            "targetSpeed": 0,
+            "boostSafe": true,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "椰子汽水",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -1.6205736167964273,
+          "t": 0.023582422138365432,
+          "offset": 4.256697206326048,
+          "speed": 16.781907673817837,
+          "ai": {
+            "lane": 3.4000236634904644,
+            "targetLane": 3.4000236634904644,
+            "holdUntil": 3.0166666666666666,
+            "nextDecision": 3.1999999999999944,
+            "action": "pass",
+            "targetSpeed": 22.8763177062317,
+            "boostSafe": false,
+            "laneChanges": 1,
+            "overtakes": 0,
+            "passTarget": 0
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        }
+      ],
+      [
+        {
+          "name": "你",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -1.5583339343992013,
+          "t": 0.020604110374381927,
+          "offset": 0.012483850075733811,
+          "speed": 0.09643444378004183,
+          "ai": {
+            "lane": 0,
+            "targetLane": 0,
+            "holdUntil": 0,
+            "nextDecision": 0,
+            "action": "cruise",
+            "targetSpeed": 0,
+            "boostSafe": true,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "椰子汽水",
+          "passed": 1,
+          "resets": -10,
+          "yaw": -1.6250017158409407,
+          "t": 0.04929057167514305,
+          "offset": 3.2441174108354134,
+          "speed": 21.34073244124629,
+          "ai": {
+            "lane": 3.4000236634904644,
+            "targetLane": 3.4000236634904644,
+            "holdUntil": 3.0166666666666666,
+            "nextDecision": 4.0666666666666575,
+            "action": "cruise",
+            "targetSpeed": 21.66939670548934,
+            "boostSafe": true,
+            "laneChanges": 1,
+            "overtakes": 1,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": "blocked",
+    "samples": [
+      [
+        {
+          "name": "你",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -2.0501099902077353,
+          "t": 0.09464338307553574,
+          "offset": 0.005320148665108635,
+          "speed": 0,
+          "ai": {
+            "lane": 0,
+            "targetLane": 0,
+            "holdUntil": 0,
+            "nextDecision": 0,
+            "action": "cruise",
+            "targetSpeed": 0,
+            "boostSafe": true,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "椰子汽水",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -1.8734878787197586,
+          "t": 0.08592515986454703,
+          "offset": -0.025025346788944795,
+          "speed": 0.11179604965235129,
+          "ai": {
+            "lane": 0,
+            "targetLane": 0,
+            "holdUntil": 0,
+            "nextDecision": 3.1999999999999944,
+            "action": "follow",
+            "targetSpeed": 0,
+            "boostSafe": false,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "橘子海",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -1.799035316198805,
+          "t": 0.08242118776630725,
+          "offset": -3.5976779981516946,
+          "speed": 0,
+          "ai": {
+            "lane": -3.6,
+            "targetLane": -3.6,
+            "holdUntil": 0,
+            "nextDecision": 3.1999999999999944,
+            "action": "cruise",
+            "targetSpeed": 16.32498078092926,
+            "boostSafe": false,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "追风少年",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -1.799035316198805,
+          "t": 0.08246366666040814,
+          "offset": 3.602231925565553,
+          "speed": 0,
+          "ai": {
+            "lane": 3.6,
+            "targetLane": 3.6,
+            "holdUntil": 0,
+            "nextDecision": 3.1999999999999944,
+            "action": "cruise",
+            "targetSpeed": 15.977414283025329,
+            "boostSafe": false,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "薄荷冰",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -1.5454717937983258,
+          "t": 0.973161583782523,
+          "offset": 2,
+          "speed": 0,
+          "ai": {
+            "lane": 1.4,
+            "targetLane": 1.4,
+            "holdUntil": 0,
+            "nextDecision": 0,
+            "action": "cruise",
+            "targetSpeed": 0,
+            "boostSafe": true,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "晚风",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -1.5454717937983258,
+          "t": 0.973161583782523,
+          "offset": -2,
+          "speed": 0,
+          "ai": {
+            "lane": -1.4,
+            "targetLane": -1.4,
+            "holdUntil": 0,
+            "nextDecision": 0,
+            "action": "cruise",
+            "targetSpeed": 0,
+            "boostSafe": true,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": "parked-player-easy",
+    "samples": [
+      [
+        {
+          "name": "你",
+          "passed": 0,
+          "resets": -10,
+          "yaw": -1.5765619801058266,
+          "t": 0.9951206238857984,
+          "offset": 1.9999504210996013,
+          "speed": 0,
+          "ai": {
+            "lane": 1.4,
+            "targetLane": 1.4,
+            "holdUntil": 0,
+            "nextDecision": 0,
+            "action": "cruise",
+            "targetSpeed": 0,
+            "boostSafe": true,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "椰子汽水",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -36.11472271951585,
+          "t": 0.5995386392631603,
+          "offset": -0.973817343572063,
+          "speed": 20.149009963812073,
+          "ai": {
+            "lane": -1.4,
+            "targetLane": -1.4,
+            "holdUntil": 0,
+            "nextDecision": 236.5666666667469,
+            "action": "cruise",
+            "targetSpeed": 20.25697459216849,
+            "boostSafe": false,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "橘子海",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -33.75229997102872,
+          "t": 0.11217107957846854,
+          "offset": -3.8553999345083234,
+          "speed": 20.316552572276418,
+          "ai": {
+            "lane": -4.7,
+            "targetLane": -4.7,
+            "holdUntil": 236.36666666674452,
+            "nextDecision": 236.5666666667469,
+            "action": "pass",
+            "targetSpeed": 20.64446589587891,
+            "boostSafe": false,
+            "laneChanges": 10,
+            "overtakes": 3,
+            "passTarget": 4
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "追风少年",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -36.297466352769234,
+          "t": 0.4700363439652186,
+          "offset": -4.329169391039283,
+          "speed": 13.014144616624563,
+          "ai": {
+            "lane": -4.121802777529648,
+            "targetLane": -4.121802777529648,
+            "holdUntil": 20.483333333333622,
+            "nextDecision": 236.5666666667469,
+            "action": "pass",
+            "targetSpeed": 13,
+            "boostSafe": false,
+            "laneChanges": 2,
+            "overtakes": 0,
+            "passTarget": 1
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "薄荷冰",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -33.80508505728422,
+          "t": 0.12533304704830495,
+          "offset": -1.206267693468921,
+          "speed": 20.067220381557085,
+          "ai": {
+            "lane": -1.4000495789003986,
+            "targetLane": -1.4000495789003986,
+            "holdUntil": 231.16666666674038,
+            "nextDecision": 236.5666666667469,
+            "action": "cruise",
+            "targetSpeed": 20.124126165644185,
+            "boostSafe": false,
+            "laneChanges": 10,
+            "overtakes": 2,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "晚风",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -34.74460772003039,
+          "t": 0.23654350932414475,
+          "offset": -1.3438398794930209,
+          "speed": 20.222568016512177,
+          "ai": {
+            "lane": -1.4000495789003986,
+            "targetLane": -1.4000495789003986,
+            "holdUntil": 49.51666666666531,
+            "nextDecision": 236.5666666667469,
+            "action": "cruise",
+            "targetSpeed": 20.213916455448448,
+            "boostSafe": true,
+            "laneChanges": 4,
+            "overtakes": 1,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        }
+      ]
+    ]
+  }
+]

@@ -68,13 +68,31 @@ for (const name of ['海风环线', '落日峡谷']) {
   const speed = Number(await page.locator('.speed strong').textContent());
   await page.keyboard.press('Escape'); await page.keyboard.up('w');
   await expect(page.getByRole('dialog')).toContainText('比赛已暂停');
-  await page.screenshot({ path: `docs/screenshots/phase4-production-${name === '海风环线' ? 'coastline' : 'canyon'}.png`, animations: 'disabled' });
+  await page.screenshot({ path: `docs/screenshots/phase5-production-${name === '海风环线' ? 'coastline' : 'canyon'}.png`, animations: 'disabled' });
   await page.getByRole('button', { name: '重新开始', exact: true }).click();
   await expect(page.locator('.countdown')).toBeVisible();
   await page.keyboard.press('Escape');
   await page.getByRole('button', { name: '返回俱乐部', exact: true }).click();
   circuits.push({ name, keyboardSpeedKmh: speed, pause: true, restart: true, singleCanvas: true });
 }
+await page.getByRole('button', { name: /驾驶实操 · 四步上手/ }).click();
+await expect(page.locator('.countdown')).toHaveCount(0, { timeout: ci ? 60_000 : 10_000 });
+await expect(page.locator('.training-card')).toContainText('教学氮气免费补给');
+await page.keyboard.down('w');
+await expect(page.locator('.training-card li.done')).toHaveCount(1);
+await page.keyboard.press('Escape'); await page.keyboard.up('w');
+await expect(page.getByRole('dialog')).toContainText('训练已暂停');
+await page.reload();
+await expect(page.getByRole('button', { name: '继续实操 · 1/4' })).toBeEnabled({ timeout: readyTimeout });
+await page.getByRole('button', { name: '继续实操 · 1/4' }).click();
+await expect(page.locator('.training-card li.done')).toHaveCount(1);
+await page.keyboard.press('Escape');
+await page.getByRole('button', { name: '从第一课重练', exact: true }).click();
+await expect(page.locator('.training-card li.done')).toHaveCount(0);
+await page.keyboard.press('Escape');
+await page.getByRole('button', { name: '返回俱乐部', exact: true }).click();
+expect(await page.evaluate(() => localStorage.getItem('coastline.records.v2'))).toBeNull();
+expect(await page.evaluate(() => localStorage.getItem('coastline.timing.v1'))).toBeNull();
 await page.reload();
 await expect(page.getByRole('button', { name: '即刻出发' })).toBeEnabled({ timeout: readyTimeout });
 await expect(page.locator('.track-card')).toContainText('落日峡谷');
@@ -89,10 +107,11 @@ for (const name of ['初代 Rodin 概念车', '海岛棕榈', '海岸砂岩']) {
   const href = await page.getByRole('link', { name: '下载 GLB' }).getAttribute('href');
   expect((await page.request.get(new URL(href, url).href)).status()).toBe(200);
 }
-await page.screenshot({ path: 'docs/screenshots/phase4-production-workshop.png', animations: 'disabled' });
+await page.screenshot({ path: 'docs/screenshots/phase5-production-workshop.png', animations: 'disabled' });
 const report = { date: new Date().toISOString(), browser: browser.version(), ci, viewport: page.viewportSize(), base: new URL(url).pathname, models, circuits,
+  training: { keyboardAcceleration: true, savedResume: true, replay: true, recordsIsolated: true },
   trackPersists: true, staticWorkshop: true, debugHarness: false, forbiddenRequests, errors };
-await writeFile('docs/phase4-production-validation.json', JSON.stringify(report, null, 2) + '\n');
+await writeFile('docs/phase5-production-validation.json', JSON.stringify(report, null, 2) + '\n');
 console.log(JSON.stringify(report));
 expect(forbiddenRequests).toEqual([]);
 expect(errors).toEqual([]);

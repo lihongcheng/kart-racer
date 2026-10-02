@@ -1,6 +1,6 @@
 # 极速小车 · Coastline Club
 
-可直接在 PC 浏览器游玩的原创 3D 街机竞速游戏：海风环线与落日峡谷双赛道、1 玩家 + 5 AI、三圈比赛、漂移集气、小喷、氮气、赛事奖牌、最佳幽灵车、分段计时、车库配色、本地纪录与 Hyper3D 模型工坊。
+可直接在 PC 浏览器游玩的原创 3D 街机竞速游戏：海风环线与落日峡谷双赛道、1 玩家 + 5 AI、三圈比赛、四步驾驶实操、AI 超车避让、漂移集气、小喷、氮气、赛事奖牌、最佳幽灵车、分段计时、车库配色、本地纪录与 Hyper3D 模型工坊。
 
 **[在线试玩 → 极速小车](https://lihongcheng.github.io/kart-racer/)** · 电脑键盘游玩，无需安装。[发布工作流](https://github.com/lihongcheng/kart-racer/actions/workflows/pages.yml) 已自动部署至 GitHub Pages。
 
@@ -29,6 +29,10 @@ npm run dev
 | Esc | 暂停 / 继续 |
 
 有效漂移达到 0.6 秒、中央进度条亮起后，松开 **Shift** 可获得小喷。低速、撞墙和驶出道路不集气，单独松开方向键不会触发小喷。切出页面自动暂停。快速竞速有轻松/普通两档 AI；计时练习独自跑三圈。
+
+主菜单的“驾驶实操”提供四步练习：加速至 54 km/h、有效漂移 0.6 秒、松开 Shift 小喷、按 Space 释放氮气。左侧显示课目进度与速度不足、缺少转向、提前松开或驶出道路等提示。教学提供一罐氮气，比赛仍需漂移集气。训练独立保存已完成课目，刷新可继续，也可从头重练；训练复位不罚时，不写入成绩、奖牌和幽灵轨迹。
+
+AI 会检测前车及相邻路线的前后空间，有空位时渐进换线超车，被挡住时减速跟车；曲率较大或前方拥堵时不释放氮气。轻松档巡航较慢、跟车留距更大，普通档巡航更快；两档都遵循相同车辆物理和碰撞规则。具体参数集中在 `apps/web/src/game/ai.ts`。
 
 第二阶段已加入渐进转向、高速转向衰减、平滑跟随镜头、小喷提示和火花反馈。关闭加速镜头效果后，比赛视野固定；暂停会冻结车轮与漂移特效。赛道装饰按区域实例化，远处 AI 使用保留 Classic 轮廓的简化模型，烟雾和胎痕使用固定容量实例池。
 
@@ -79,6 +83,7 @@ node scripts/benchmark.mjs current  # 开发版：1080p 静止场景基准
 node scripts/benchmark-race.mjs     # 开发版：两档画质各 40 秒实际比赛渲染
 node scripts/benchmark-race.mjs canyon # 落日峡谷：1080p、两档画质各 40 秒
 node scripts/benchmark-ghost.mjs    # 开发版：1080p 可见幽灵车，两档画质各 20 秒
+node scripts/validate-traffic.mjs   # 四组难度/赛道基准 + 1080p双画质真实竞速采样
 npm run build -- --base=/kart-racer/ # GitHub Pages 子路径构建
 node scripts/validate-production.mjs # 自启静态文件服务器，验证子路径构建
 ```
@@ -106,4 +111,4 @@ npm run assets:kart    # 仅重新导出当前 Classic 赛车，不需要 Rodin 
 - `tests/`：规则与服务测试、Playwright 浏览器验收。
 - [设计方案](docs/design-plan.md)、[验收记录](docs/validation.md)、[比赛结果](docs/race-validation.json)。
 
-当前已完成首个可玩版本、Classic 赛车重做、[第二阶段体验打磨](docs/phase2-validation.md)、[第三阶段双赛道与赛事奖牌](docs/phase3-validation.md)及[第四阶段幽灵车、分段计时与发布配置](docs/phase4-validation.md)。地面高度来自样条投影，Rapier 处理车辆和护栏碰撞；尚未实现自由悬挂/跳跃、驾驶员骨骼动画、多人联机、道具赛、移动触控和用户生成模型自动装备。实际帧率与测试范围见验收记录。
+当前已完成首个可玩版本、Classic 赛车重做、[第二阶段体验打磨](docs/phase2-validation.md)、[第三阶段双赛道与赛事奖牌](docs/phase3-validation.md)、[第四阶段幽灵车、分段计时与发布配置](docs/phase4-validation.md)及[驾驶实操、难度校准与 AI 超车避让](docs/phase5-validation.md)。地面高度来自样条投影，Rapier 处理车辆和护栏碰撞；尚未实现自由悬挂/跳跃、驾驶员骨骼动画、多人联机、道具赛、移动触控和用户生成模型自动装备。实际帧率与测试范围见验收记录。

@@ -12,6 +12,8 @@ import { animateKart, selectKartDetail } from './kart-animation';
 import { ReplayRecorder, REPLAY_REVISION, recordSector, replayPose, type Pose, type TimeRun } from './timing';
 import { makeGhost, positionGhost } from './ghost';
 import { assetUrl } from '../resources';
+import { advanceTraining, newTraining, type Training } from './training';
+import { newAI, planAI, type AIState } from './ai';
 
 export type Phase = 'menu' | 'countdown' | 'racing' | 'paused' | 'finished';
 export type Settings = { sound: boolean; quality: 'high' | 'low'; motion: boolean; difficulty: 'easy' | 'normal'; paint: number; trackId: TrackId; ghost: boolean };
@@ -22,11 +24,13 @@ export type Snapshot = {
   wrongWay: boolean; offroad: boolean; hint: string; toast: string;
   ready: boolean; assets: number; fps: number; mode: RaceMode; trackId: TrackId;
   sectorEnds: number[]; referenceEnds: number[]; ghostAvailable: boolean; replayLimited: boolean;
+  training: Training | null;
 };
 type Racer = {
   name: string; visual: KartVisual; body: RAPIER.RigidBody; drive: DriveState; progress: ProgressState;
   x: number; z: number; prev: THREE.Vector3; previousYaw: number; t: number; offset: number;
   stuck: number; lastReset: number; lane: number; offroad: boolean; collision: boolean;
+  ai: AIState; collisions: number; resets: number; offroadSeconds: number;
 };
 // React StrictMode mounts twice in development; initialize WASM only once.
 // Concurrent init() calls can replace the module after a world already exists.
@@ -36,6 +40,7 @@ export const initialSnapshot: Snapshot = {
   boost: false, nitro: false, mini: false, miniProgress: 0, drifting: false, driftTime: 0, lapTimes: [], racers: [], wrongWay: false,
   offroad: false, hint: '准备出发', toast: '', ready: false, assets: 0, fps: 60, mode: 'race', trackId: 'coastline',
   sectorEnds: [], referenceEnds: [], ghostAvailable: false, replayLimited: false,
+  training: null,
 };
 
 export class KartGame {
@@ -78,8 +83,11 @@ export class KartGame {
   private referenceRun?: TimeRun;
   private sectorEnds: number[] = [];
   private recorder = new ReplayRecorder();
+  private training: Training | null = null;
+  private debugPaces = new Map<number, number>();
   private error: (message: string) => void;
   onFinish?: (snapshot: Snapshot) => void;
+  onTrainingProgress?: (completed: number) => void;
 
   constructor(private host: HTMLElement, settings: Settings, private publish: (snapshot: Snapshot) => void, onError: (message: string) => void) {
     this.settings = settings; this.error = onError;
@@ -150,7 +158,7 @@ export class KartGame {
     const names = ['你', '椰子汽水', '橘子海', '追风少年', '薄荷冰', '晚风'];
     const colors = [PAINTS[this.settings.paint].hex, '#ffc36d', '#f98976', '#7797dc', '#b7d68a', '#dcaad9'];
     this.racers = names.map((name, i) => {
-      const t = wrap(-(Math.floor(i / 2) * 4.5 + 4) / this.track.length);
+      const t = wrap(-(Math.floor(i / 2) * 9 + 4) / this.track.length);
       const spawn = this.track.at(t);
       const lane = (i % 2 ? -1 : 1) * 2;
       const p = spawn.position.clone().addScaledVector(spawn.right, lane);
@@ -164,7 +172,8 @@ export class KartGame {
       }
       return { name, body, visual, drive: newDrive(spawn.yaw), progress: newProgress(t),
         x: p.x, z: p.z, prev: p.clone(), previousYaw: spawn.yaw, t, offset: lane,
-        stuck: 0, lastReset: -10, lane, offroad: false, collision: false };
+        stuck: 0, lastReset: -10, lane, offroad: false, collision: false,
+        ai: newAI(lane * 0.7), collisions: 0, resets: 0, offroadSeconds: 0 };
     });
   }
   updateSettings(settings: Settings) {
@@ -180,6 +189,8 @@ export class KartGame {
   }
   start(mode: RaceMode) {
     if (!this.ready || this.disposed) return;
+    this.training = null;
+    this.debugPaces.clear();
     this.garage = false;
     this.mode = mode; this.elapsed = 0; this.countdown = 3.5; this.phase = 'countdown';
     this.finishedSent = false; this.keys.clear(); this.controls = undefined; this.autopilot = false; this.clock.reset();
@@ -188,7 +199,7 @@ export class KartGame {
     this.sectorEnds = []; this.recorder = new ReplayRecorder();
     if (this.ghost) this.ghost.group.visible = false;
     this.racers.forEach((r, i) => {
-      const t = wrap(-(Math.floor(i / 2) * 4.5 + 4) / this.track.length), p = this.track.at(t);
+      const t = wrap(-(Math.floor(i / 2) * 9 + 4) / this.track.length), p = this.track.at(t);
       const pos = p.position.clone().addScaledVector(p.right, (i % 2 ? -1 : 1) * 2);
       r.body.setTranslation({ x: pos.x, y: pos.y + 0.75, z: pos.z }, true);
       r.body.setLinvel({ x: 0, y: 0, z: 0 }, true);
@@ -196,6 +207,8 @@ export class KartGame {
       r.x = pos.x; r.z = pos.z; r.prev.copy(pos); r.t = t; r.drive = newDrive(p.yaw);
       r.previousYaw = p.yaw; r.progress = newProgress(t); r.stuck = 0; r.lastReset = -10;
       r.offroad = false; r.collision = false;
+      r.offset = (i % 2 ? -1 : 1) * 2;
+      r.ai = newAI(r.lane * 0.7); r.collisions = 0; r.resets = 0; r.offroadSeconds = 0;
       r.visual.group.visible = i === 0 || mode === 'race';
     });
     this.cameraYaw = this.racers[0].drive.yaw;
@@ -203,7 +216,20 @@ export class KartGame {
     void this.audio.unlock().catch(() => {});
     this.audio.beep(440); this.emit();
   }
+  startTraining(completed = 0) {
+    if (!this.ready || this.disposed) return;
+    this.start('time');
+    this.training = newTraining(completed);
+    this.referenceRun = undefined;
+    if (this.training.completed === 3) this.racers[0].drive.cans = 1;
+    this.emit();
+  }
+  restart() {
+    if (this.training) this.startTraining(this.training.completed);
+    else this.start(this.mode);
+  }
   menu() {
+    this.training = null;
     this.phase = 'menu'; this.keys.clear(); this.controls = undefined; this.autopilot = false; this.clock.reset();
     this.driftEffects.clear();
     this.racers.forEach(r => r.visual.group.visible = true); this.garage = false; this.emit();
@@ -243,20 +269,25 @@ export class KartGame {
       drift: held('ShiftLeft', 'ShiftRight'), boost: held('Space') };
   }
   private aiInput(r: Racer, i: number): Controls {
-    const look = this.track.at(r.t + (7 + Math.abs(r.drive.speed) * 0.45) / this.track.length);
-    const target = look.position.clone().addScaledVector(look.right, r.lane * 0.7);
+    const curvature = Math.abs(angleDiff(this.track.at(r.t + 0.028).yaw, this.track.at(r.t).yaw));
+    const traffic = this.racers.flatMap((other, id) => other.body.isEnabled() ?
+      [{ id, t: other.t, offset: other.offset, speed: Math.max(0, other.drive.speed) }] : []);
+    planAI(r.ai, { id: i, t: r.t, offset: r.offset, speed: Math.max(0, r.drive.speed) }, traffic, {
+      length: this.track.length, width: this.track.width, curvature, difficulty: this.settings.difficulty, now: this.elapsed, dt: 1 / 60,
+    });
+    const lookDistance = r.ai.action === 'pass' ? 1 + Math.abs(r.drive.speed) * 0.4 : 7 + Math.abs(r.drive.speed) * 0.45;
+    const look = this.track.at(r.t + lookDistance / this.track.length);
+    const target = look.position.clone().addScaledVector(look.right, r.ai.lane);
     const desired = Math.atan2(target.x - r.x, target.z - r.z);
     const error = angleDiff(desired, r.drive.yaw);
-    const curvature = Math.abs(angleDiff(this.track.at(r.t + 0.028).yaw, this.track.at(r.t).yaw));
-    const base = this.settings.difficulty === 'easy' ? 24 : 30;
-    const targetSpeed = Math.max(13, base - i * 0.35 - curvature * 15);
+    const targetSpeed = Math.min(r.ai.targetSpeed, this.debugPaces.get(i) ?? Infinity);
     return { throttle: r.drive.speed < targetSpeed ? 1 : 0, brake: r.drive.speed > targetSpeed + 2,
-      steer: clamp(error * 2.4, -1, 1), drift: Math.abs(error) > 0.35 && r.drive.speed > 15,
-      boost: curvature < 0.15 && r.drive.cans > 0 && this.elapsed % 5 < 0.1 };
+      steer: clamp(error * 2.4, -1, 1), drift: Math.abs(error) > 0.35 && r.drive.speed > 15 && r.ai.action === 'cruise',
+      boost: r.ai.boostSafe && r.drive.cans > 0 && this.elapsed % 5 < 0.1 && !this.debugPaces.has(i) };
   }
   private resetRacer(r: Racer, penalty: boolean) {
     if (this.elapsed - r.lastReset < 2) return;
-    if (penalty && this.mode === 'time') this.recorder.capture(this.elapsed, this.playerPose(), true);
+    if (penalty && this.mode === 'time' && !this.training) this.recorder.capture(this.elapsed, this.playerPose(), true);
     const p = this.track.at(wrap(r.progress.passed / CHECKPOINTS + 0.003));
     const occupied = this.racers.filter(other => other !== r && other.body.isEnabled());
     const offsets = [0, -3.5, 3.5];
@@ -268,6 +299,9 @@ export class KartGame {
     r.drive = { ...newDrive(p.yaw), cans: r.drive.cans, charge: r.drive.charge };
     r.previousYaw = p.yaw; r.t = wrap(r.progress.passed / CHECKPOINTS + 0.003);
     r.progress.previous = r.t; r.stuck = 0; r.lastReset = this.elapsed;
+    r.offset = lane; r.ai = { ...r.ai, lane, targetLane: lane, holdUntil: this.elapsed + 1, passTarget: null };
+    r.resets++;
+    if (this.training && penalty) { this.notify('已回到赛道 · 继续当前课目'); return; }
     if (penalty) {
       if (this.mode === 'time') this.recorder.capture(this.elapsed, this.playerPose(), true, true);
       this.elapsed += 2;
@@ -290,11 +324,27 @@ export class KartGame {
       r.prev.copy(r.visual.group.position); r.prev.set(r.x, r.visual.group.position.y, r.z); r.previousYaw = r.drive.yaw;
       const projection = this.track.project(r.x, r.z); r.t = projection.progress; r.offset = projection.offset;
       r.offroad = projection.distance > this.track.width / 2;
+      if (r.offroad) r.offroadSeconds += dt;
       const velocity = r.body.linvel();
-      r.collision = Math.hypot(velocity.x - r.drive.vx, velocity.z - r.drive.vz) > 5;
+      const collision = Math.hypot(velocity.x - r.drive.vx, velocity.z - r.drive.vz) > 5;
+      if (collision && !r.collision) r.collisions++;
+      r.collision = collision;
       r.drive.vx = velocity.x; r.drive.vz = velocity.z;
       const input = i === 0 ? this.playerInput() : this.aiInput(r, i);
+      const previousMini = r.drive.miniTime, previousNitro = r.drive.boostTime;
       drive(r.drive, input, dt, r.offroad, r.collision);
+      if (i === 0 && this.training) {
+        const completed = this.training.completed;
+        advanceTraining(this.training, { drive: r.drive, input, offroad: r.offroad, collision: r.collision,
+          miniStarted: r.drive.miniTime > previousMini, nitroStarted: r.drive.boostTime > previousNitro });
+        if (this.training.completed !== completed) {
+          if (this.training.completed === 3) r.drive.cans = Math.max(1, r.drive.cans);
+          this.onTrainingProgress?.(this.training.completed);
+          this.audio.beep(900, 0.15);
+        }
+        // Invalid nitro attempts may be repeated; teaching supplies never enter a race.
+        if (this.training.completed === 3 && r.drive.cans === 0 && r.drive.boostTime === 0) r.drive.cans = 1;
+      }
       r.body.setLinvel({ x: r.drive.vx, y: 0, z: r.drive.vz }, true);
       r.body.setTranslation({ x: r.x, y: projection.position.y + 0.75, z: r.z }, true);
       r.stuck = Math.abs(r.drive.speed) < 2 && input.throttle ? r.stuck + dt : 0;
@@ -304,13 +354,19 @@ export class KartGame {
     for (const [i, r] of this.racers.entries()) {
       if (!r.body.isEnabled()) continue;
       const position = r.body.translation(); r.x = position.x; r.z = position.z;
-      const p = this.track.project(r.x, r.z); r.t = p.progress;
+      const p = this.track.project(r.x, r.z); r.t = p.progress; r.offset = p.offset;
       const completedLap = advanceProgress(r.progress, p.progress, this.elapsed, p.distance <= this.track.width / 2 + 1);
       if (i === 0 && completedLap && !r.progress.finishedAt) {
         this.notify(`第 ${r.progress.lapTimes.length} 圈完成`); this.audio.beep(900, 0.2);
       }
     }
     const player = this.racers[0];
+    if (this.training) {
+      if (this.training.completed === 4) {
+        this.phase = 'finished'; this.keys.clear(); this.emit();
+      }
+      return;
+    }
     if (this.mode === 'time') {
       recordSector(this.sectorEnds, player.progress.passed, this.elapsed);
       this.recorder.capture(this.elapsed, this.playerPose(), player.progress.finishedAt !== null);
@@ -379,7 +435,7 @@ export class KartGame {
     this.availableRun = run?.trackId === this.track.id ? run : undefined;
   }
   completedTimeRun(): TimeRun | undefined {
-    if (this.phase !== 'finished' || this.mode !== 'time' || this.sectorEnds.length !== 9) return;
+    if (this.training || this.phase !== 'finished' || this.mode !== 'time' || this.sectorEnds.length !== 9) return;
     return { revision: REPLAY_REVISION, trackId: this.track.id, total: this.elapsed,
       ends: [...this.sectorEnds], frames: this.recorder.limited ? null : this.recorder.frames };
   }
@@ -422,6 +478,7 @@ export class KartGame {
       fps: Math.round(this.fps), mode: this.mode, trackId: this.track.id,
       sectorEnds: [...this.sectorEnds], referenceEnds: [...(this.referenceRun?.ends ?? [])],
       ghostAvailable: !!this.referenceRun?.frames, replayLimited: this.recorder.limited,
+      training: this.training ? { ...this.training } : null,
     };
   }
   private emit() { this.publish(this.snapshot()); }
@@ -446,16 +503,37 @@ export class KartGame {
           wheels: r.visual.wheels.map(w => w.children[0].quaternion.toArray()),
           flameScale: r.visual.flame.scale.z, low: !!r.visual.low?.group.visible,
         })),
-        racers: this.racers.map(r => ({ name: r.name, passed: r.progress.passed, resets: r.lastReset, yaw: r.drive.yaw })),
+        racers: this.racers.map(r => ({ name: r.name, passed: r.progress.passed, resets: r.lastReset, yaw: r.drive.yaw,
+          t: r.t, offset: r.offset, speed: r.drive.speed, ai: { ...r.ai },
+          collisions: r.collisions, resetCount: r.resets, offroadSeconds: r.offroadSeconds })),
       }),
       autopilot: (enabled: boolean) => { this.autopilot = enabled; },
       input: (input?: Controls) => { this.controls = input; },
       advance: (seconds: number, autopilot = false) => {
+        const previous = this.autopilot;
+        if (autopilot) this.autopilot = true;
         for (let n = 0; n < seconds * 60; n++) {
-          if (autopilot) this.controls = this.aiInput(this.racers[0], 0);
           this.tick(1 / 60);
         }
-        this.controls = undefined; this.emit(); return this.snapshot();
+        this.autopilot = previous; this.controls = undefined; this.emit(); return this.snapshot();
+      },
+      traffic: (cars: { id: number; t: number; offset: number; speed: number; pace?: number }[]) => {
+        this.start('race'); this.phase = 'racing';
+        this.racers.forEach((r, id) => {
+          const car = cars.find(c => c.id === id);
+          r.body.setEnabled(!!car); r.visual.group.visible = !!car;
+          if (!car) return;
+          const p = this.track.at(car.t), pos = p.position.addScaledVector(p.right, car.offset);
+          r.x = pos.x; r.z = pos.z; r.t = wrap(car.t); r.offset = car.offset;
+          r.prev.copy(pos); r.previousYaw = p.yaw; r.progress = newProgress(r.t);
+          r.drive = newDrive(p.yaw); r.drive.speed = car.speed;
+          r.drive.vx = Math.sin(p.yaw) * car.speed; r.drive.vz = Math.cos(p.yaw) * car.speed;
+          r.ai = newAI(car.offset);
+          r.body.setTranslation({ x: pos.x, y: pos.y + 0.75, z: pos.z }, true);
+          r.body.setLinvel({ x: r.drive.vx, y: 0, z: r.drive.vz }, true);
+          if (car.pace !== undefined) this.debugPaces.set(id, car.pace);
+        });
+        this.emit();
       },
       start: (mode: RaceMode = 'race') => this.start(mode),
       pause: () => this.pause(),

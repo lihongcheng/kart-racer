@@ -1,0 +1,1288 @@
+{
+  "date": "2026-10-02T07:43:48.838Z",
+  "browser": "149.0.7827.54",
+  "viewport": "1920x1080",
+  "headless": true,
+  "note": "Scripted driving and AI baselines; not independent human playtesting. Render samples use real time, 20 seconds each.",
+  "calibration": [
+    {
+      "trackId": "coastline",
+      "difficulty": "easy",
+      "medals": {
+        "gold": 100,
+        "silver": 120,
+        "bronze": 150
+      },
+      "solo": {
+        "total": 127.69999999999403,
+        "laps": [
+          43.1666666666655,
+          42.26666666666427,
+          42.266666666664264
+        ],
+        "phase": "finished"
+      },
+      "ai": [
+        {
+          "name": "椰子汽水",
+          "finishedAt": 126.76666666666075
+        },
+        {
+          "name": "追风少年",
+          "finishedAt": 130.54999999999603
+        },
+        {
+          "name": "晚风",
+          "finishedAt": 137.23333333333468
+        },
+        {
+          "name": "薄荷冰",
+          "finishedAt": 140.01666666667023
+        },
+        {
+          "name": "橘子海",
+          "finishedAt": 143.90000000000666
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "椰子汽水",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -54.85376655533136,
+          "t": 0.47155738825648436,
+          "offset": 0.04394576765109846,
+          "speed": 13.084588195873208,
+          "ai": {
+            "lane": -1.4,
+            "targetLane": -1.4,
+            "holdUntil": 0,
+            "nextDecision": 356.48333333333795,
+            "action": "cruise",
+            "targetSpeed": 13,
+            "boostSafe": false,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "橘子海",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -50.66112498393619,
+          "t": 0.8070259845543835,
+          "offset": 2.761282145761014,
+          "speed": 20.33944688279726,
+          "ai": {
+            "lane": 2.6276602047632553,
+            "targetLane": 2.6276602047632553,
+            "holdUntil": 342.16666666668687,
+            "nextDecision": 356.48333333333795,
+            "action": "pass",
+            "targetSpeed": 20.591616987430257,
+            "boostSafe": false,
+            "laneChanges": 16,
+            "overtakes": 4,
+            "passTarget": 4
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "追风少年",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -53.96957456161927,
+          "t": 0.28581928150819413,
+          "offset": -3.594441170389028,
+          "speed": 20.75116403560107,
+          "ai": {
+            "lane": -4.121802777529648,
+            "targetLane": -4.121802777529648,
+            "holdUntil": 20.483333333333622,
+            "nextDecision": 356.48333333333795,
+            "action": "pass",
+            "targetSpeed": 20.741822416196854,
+            "boostSafe": false,
+            "laneChanges": 2,
+            "overtakes": 0,
+            "passTarget": 1
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "薄荷冰",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -51.10940504045924,
+          "t": 0.8635493425377364,
+          "offset": -2.3475793398589415,
+          "speed": 21.051832412176978,
+          "ai": {
+            "lane": -2.5198921434635695,
+            "targetLane": -2.5198921434635695,
+            "holdUntil": 247.36666666675518,
+            "nextDecision": 356.48333333333795,
+            "action": "cruise",
+            "targetSpeed": 21.088870124675218,
+            "boostSafe": true,
+            "laneChanges": 10,
+            "overtakes": 2,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "晚风",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -51.30401469392561,
+          "t": 0.9145134101531852,
+          "offset": -1.4539786525232081,
+          "speed": 17.60649776103863,
+          "ai": {
+            "lane": -1.4000495789003986,
+            "targetLane": -1.4000495789003986,
+            "holdUntil": 49.51666666666531,
+            "nextDecision": 356.48333333333795,
+            "action": "cruise",
+            "targetSpeed": 17.425474784814035,
+            "boostSafe": false,
+            "laneChanges": 4,
+            "overtakes": 1,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        }
+      ]
+    },
+    {
+      "trackId": "coastline",
+      "difficulty": "normal",
+      "medals": {
+        "gold": 100,
+        "silver": 120,
+        "bronze": 150
+      },
+      "solo": {
+        "total": 101.3666666666622,
+        "laps": [
+          34.48333333333266,
+          33.449999999998106,
+          33.43333333333143
+        ],
+        "phase": "finished"
+      },
+      "ai": [
+        {
+          "name": "椰子汽水",
+          "finishedAt": 103.29999999999542
+        },
+        {
+          "name": "晚风",
+          "finishedAt": 106.54999999999524
+        },
+        {
+          "name": "追风少年",
+          "finishedAt": 112.3999999999949
+        },
+        {
+          "name": "橘子海",
+          "finishedAt": 120.7666666666611
+        },
+        {
+          "name": "薄荷冰",
+          "finishedAt": 124.53333333332755
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "椰子汽水",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -68.10627589175284,
+          "t": 0.4460987062309645,
+          "offset": -1.7772078524383337,
+          "speed": 20.134652548058842,
+          "ai": {
+            "lane": -1.4,
+            "targetLane": -1.4,
+            "holdUntil": 0,
+            "nextDecision": 356.48333333333795,
+            "action": "cruise",
+            "targetSpeed": 20.34754493789471,
+            "boostSafe": false,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "橘子海",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -63.71461454711848,
+          "t": 0.8708114129031431,
+          "offset": -0.8684640317518264,
+          "speed": 27.988706448395032,
+          "ai": {
+            "lane": -1.4000495789003986,
+            "targetLane": -1.4000495789003986,
+            "holdUntil": 290.53333333340004,
+            "nextDecision": 356.48333333333795,
+            "action": "cruise",
+            "targetSpeed": 27.895376129756293,
+            "boostSafe": true,
+            "laneChanges": 11,
+            "overtakes": 4,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "追风少年",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -64.39816738195609,
+          "t": 0.02248228505141709,
+          "offset": -1.5135910863208073,
+          "speed": 28.38829686143884,
+          "ai": {
+            "lane": -1.4000495789003986,
+            "targetLane": -1.4000495789003986,
+            "holdUntil": 39.916666666665826,
+            "nextDecision": 356.48333333333795,
+            "action": "cruise",
+            "targetSpeed": 28.212897713507278,
+            "boostSafe": true,
+            "laneChanges": 6,
+            "overtakes": 1,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "薄荷冰",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -61.267520516102564,
+          "t": 0.6002704251363278,
+          "offset": -0.33722542317602155,
+          "speed": 24.950593369222027,
+          "ai": {
+            "lane": -1.4000495789003986,
+            "targetLane": -1.4000495789003986,
+            "holdUntil": 123.31666666666109,
+            "nextDecision": 356.48333333333795,
+            "action": "cruise",
+            "targetSpeed": 25.178374695044166,
+            "boostSafe": false,
+            "laneChanges": 17,
+            "overtakes": 2,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "晚风",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -66.26658746106541,
+          "t": 0.2577410802065088,
+          "offset": -2.730097305624472,
+          "speed": 24.083717721264588,
+          "ai": {
+            "lane": -2.7720760419401747,
+            "targetLane": -2.7720760419401747,
+            "holdUntil": 23.666666666666746,
+            "nextDecision": 356.48333333333795,
+            "action": "cruise",
+            "targetSpeed": 23.987970599287806,
+            "boostSafe": false,
+            "laneChanges": 5,
+            "overtakes": 1,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        }
+      ]
+    },
+    {
+      "trackId": "canyon",
+      "difficulty": "easy",
+      "medals": {
+        "gold": 140,
+        "silver": 170,
+        "bronze": 210
+      },
+      "solo": {
+        "total": 199.46666666671754,
+        "laps": [
+          67.06666666666415,
+          66.20000000000071,
+          66.20000000005268
+        ],
+        "phase": "finished"
+      },
+      "ai": [
+        {
+          "name": "椰子汽水",
+          "finishedAt": 199.2500000000507
+        },
+        {
+          "name": "追风少年",
+          "finishedAt": 208.5500000000581
+        },
+        {
+          "name": "晚风",
+          "finishedAt": 213.18333333339513
+        },
+        {
+          "name": "薄荷冰",
+          "finishedAt": 215.11666666673
+        },
+        {
+          "name": "橘子海",
+          "finishedAt": 217.30000000006507
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "椰子汽水",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -36.440710232782024,
+          "t": 0.38892594032705236,
+          "offset": -1.231043928607908,
+          "speed": 16.82694606582336,
+          "ai": {
+            "lane": -1.4,
+            "targetLane": -1.4,
+            "holdUntil": 0,
+            "nextDecision": 356.48333333333795,
+            "action": "cruise",
+            "targetSpeed": 16.979074147750367,
+            "boostSafe": false,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "橘子海",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -33.395478855845916,
+          "t": 0.9847581997433112,
+          "offset": 1.9474064151449633,
+          "speed": 8.003749748025882,
+          "ai": {
+            "lane": 0.4533257145988061,
+            "targetLane": -1.402901661143655,
+            "holdUntil": 358.63333333333856,
+            "nextDecision": 356.48333333333795,
+            "action": "pass",
+            "targetSpeed": 7.782890691916144,
+            "boostSafe": false,
+            "laneChanges": 19,
+            "overtakes": 3,
+            "passTarget": 0
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "追风少年",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -34.815095302474695,
+          "t": 0.1936375784787232,
+          "offset": -1.7896926535285496,
+          "speed": 16.6284942228842,
+          "ai": {
+            "lane": -1.402901661143655,
+            "targetLane": -1.402901661143655,
+            "holdUntil": 72.89999999999732,
+            "nextDecision": 356.48333333333795,
+            "action": "cruise",
+            "targetSpeed": 16.38893514952715,
+            "boostSafe": false,
+            "laneChanges": 4,
+            "overtakes": 1,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "薄荷冰",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -32.94698531564117,
+          "t": 0.024437422238008287,
+          "offset": -1.232057409565648,
+          "speed": 21.634686350462523,
+          "ai": {
+            "lane": -1.110925824848564,
+            "targetLane": -1.110925824848564,
+            "holdUntil": 224.56666666673513,
+            "nextDecision": 356.48333333333795,
+            "action": "pass",
+            "targetSpeed": 21.927342075294046,
+            "boostSafe": false,
+            "laneChanges": 6,
+            "overtakes": 1,
+            "passTarget": 5
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "晚风",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -33.11180035124609,
+          "t": 0.06502991409706119,
+          "offset": -4.574735773114603,
+          "speed": 16.64553508666642,
+          "ai": {
+            "lane": -4.7,
+            "targetLane": -4.7,
+            "holdUntil": 94.13333333332945,
+            "nextDecision": 356.48333333333795,
+            "action": "pass",
+            "targetSpeed": 16.49613222852846,
+            "boostSafe": false,
+            "laneChanges": 9,
+            "overtakes": 0,
+            "passTarget": 3
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        }
+      ]
+    },
+    {
+      "trackId": "canyon",
+      "difficulty": "normal",
+      "medals": {
+        "gold": 140,
+        "silver": 170,
+        "bronze": 210
+      },
+      "solo": {
+        "total": 159.91666666668607,
+        "laps": [
+          54.23333333333154,
+          52.849999999997,
+          52.83333333335753
+        ],
+        "phase": "finished"
+      },
+      "ai": [
+        {
+          "name": "椰子汽水",
+          "finishedAt": 159.5666666666858
+        },
+        {
+          "name": "追风少年",
+          "finishedAt": 167.96666666669248
+        },
+        {
+          "name": "晚风",
+          "finishedAt": 172.88333333336305
+        },
+        {
+          "name": "薄荷冰",
+          "finishedAt": 177.88333333336703
+        },
+        {
+          "name": "橘子海",
+          "finishedAt": 180.91666666670278
+        }
+      ],
+      "diagnostics": [
+        {
+          "name": "椰子汽水",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -44.1770310581685,
+          "t": 0.7268662643130657,
+          "offset": -0.6095912336591358,
+          "speed": 27.444948958690926,
+          "ai": {
+            "lane": -1.4,
+            "targetLane": -1.4,
+            "holdUntil": 0,
+            "nextDecision": 356.48333333333795,
+            "action": "cruise",
+            "targetSpeed": 27.37891738544586,
+            "boostSafe": false,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "橘子海",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -41.011984940170585,
+          "t": 0.18903665894754304,
+          "offset": -1.4483238040000481,
+          "speed": 21.72215512795604,
+          "ai": {
+            "lane": -1.402901661143655,
+            "targetLane": -1.402901661143655,
+            "holdUntil": 346.65000000001567,
+            "nextDecision": 356.48333333333795,
+            "action": "cruise",
+            "targetSpeed": 21.76392235246179,
+            "boostSafe": false,
+            "laneChanges": 47,
+            "overtakes": 4,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "追风少年",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -43.067023315119876,
+          "t": 0.4831339793855801,
+          "offset": -0.4695951386482236,
+          "speed": 18.884542105641167,
+          "ai": {
+            "lane": -1.402901661143655,
+            "targetLane": -1.402901661143655,
+            "holdUntil": 58.766666666664754,
+            "nextDecision": 356.48333333333795,
+            "action": "cruise",
+            "targetSpeed": 19.117230161660864,
+            "boostSafe": false,
+            "laneChanges": 8,
+            "overtakes": 1,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "薄荷冰",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -41.03602475177045,
+          "t": 0.2445762713235106,
+          "offset": -0.6378190438477506,
+          "speed": 14.245729892482384,
+          "ai": {
+            "lane": -1.402901661143655,
+            "targetLane": -1.402901661143655,
+            "holdUntil": 344.70000000001744,
+            "nextDecision": 356.48333333333795,
+            "action": "cruise",
+            "targetSpeed": 14.421845924304012,
+            "boostSafe": false,
+            "laneChanges": 11,
+            "overtakes": 3,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "晚风",
+          "passed": 72,
+          "resets": -10,
+          "yaw": -40.31916748933103,
+          "t": 0.29443372673168183,
+          "offset": -3.404910030115853,
+          "speed": 13.168964764527095,
+          "ai": {
+            "lane": -3.6,
+            "targetLane": -3.6,
+            "holdUntil": 90.81666666666294,
+            "nextDecision": 356.48333333333795,
+            "action": "pass",
+            "targetSpeed": 13,
+            "boostSafe": false,
+            "laneChanges": 15,
+            "overtakes": 0,
+            "passTarget": 3
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        }
+      ]
+    }
+  ],
+  "measurements": [
+    {
+      "trackId": "coastline",
+      "quality": "high",
+      "fps": 120.01879511312751,
+      "p95FrameMs": 9.100000000002183,
+      "frames": 2401,
+      "drawCalls": 117.13952519783423,
+      "elapsedFrom": 2.0166666666666644,
+      "elapsedTo": 22.016666666666698,
+      "racers": 6,
+      "diagnostics": [
+        {
+          "name": "你",
+          "passed": 13,
+          "resets": -10,
+          "yaw": -4.147583416249122,
+          "t": 0.5699459929167109,
+          "offset": 1.8596740789735247,
+          "speed": 23.490294269082,
+          "ai": {
+            "lane": 1.1526179936543213,
+            "targetLane": 1.1526179936543213,
+            "holdUntil": 21.766666666666854,
+            "nextDecision": 22.066666666666706,
+            "action": "pass",
+            "targetSpeed": 23.555231535655043,
+            "boostSafe": false,
+            "laneChanges": 4,
+            "overtakes": 0,
+            "passTarget": 1
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "椰子汽水",
+          "passed": 14,
+          "resets": -10,
+          "yaw": -4.792062456727127,
+          "t": 0.6081069205893875,
+          "offset": -0.3896310661483054,
+          "speed": 25.320286168855468,
+          "ai": {
+            "lane": -1.4,
+            "targetLane": -1.4,
+            "holdUntil": 0,
+            "nextDecision": 22.01666666666671,
+            "action": "cruise",
+            "targetSpeed": 25.55241746640127,
+            "boostSafe": false,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "橘子海",
+          "passed": 12,
+          "resets": -10,
+          "yaw": -3.4240588116123747,
+          "t": 0.5095458390701126,
+          "offset": -3.5787250841835925,
+          "speed": 28.96586213956133,
+          "ai": {
+            "lane": -3.416944439055765,
+            "targetLane": -3.6,
+            "holdUntil": 23.8833333333334,
+            "nextDecision": 22.01666666666671,
+            "action": "pass",
+            "targetSpeed": 28.886191190526336,
+            "boostSafe": false,
+            "laneChanges": 7,
+            "overtakes": 0,
+            "passTarget": 5
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "追风少年",
+          "passed": 13,
+          "resets": -10,
+          "yaw": -3.7397002071389975,
+          "t": 0.558210751313551,
+          "offset": -4.087944467675741,
+          "speed": 16.665195847941074,
+          "ai": {
+            "lane": -4.328388578633854,
+            "targetLane": -4.328388578633854,
+            "holdUntil": 19.116666666667005,
+            "nextDecision": 22.01666666666671,
+            "action": "pass",
+            "targetSpeed": 16.513185652970133,
+            "boostSafe": false,
+            "laneChanges": 3,
+            "overtakes": 0,
+            "passTarget": 1
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "薄荷冰",
+          "passed": 11,
+          "resets": -10,
+          "yaw": -4.235231266305003,
+          "t": 0.48119259066825154,
+          "offset": -1.5928444277000273,
+          "speed": 18.142059054219335,
+          "ai": {
+            "lane": 0.5326588937059387,
+            "targetLane": 0.5326588937059387,
+            "holdUntil": 22.36666666666682,
+            "nextDecision": 22.01666666666671,
+            "action": "pass",
+            "targetSpeed": 21.10190461151164,
+            "boostSafe": false,
+            "laneChanges": 7,
+            "overtakes": 0,
+            "passTarget": 5
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "晚风",
+          "passed": 12,
+          "resets": -10,
+          "yaw": -3.550934674333321,
+          "t": 0.5362637587894887,
+          "offset": 4.108014333499718,
+          "speed": 22.51598446617393,
+          "ai": {
+            "lane": 1.710000000000016,
+            "targetLane": -0.8538798336130369,
+            "holdUntil": 23.233333333333437,
+            "nextDecision": 22.01666666666671,
+            "action": "pass",
+            "targetSpeed": 22.377727553069324,
+            "boostSafe": false,
+            "laneChanges": 5,
+            "overtakes": 0,
+            "passTarget": 3
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        }
+      ]
+    },
+    {
+      "trackId": "coastline",
+      "quality": "low",
+      "fps": 120.01519559342096,
+      "p95FrameMs": 9.099999999998545,
+      "frames": 2401,
+      "drawCalls": 117.1399416909621,
+      "elapsedFrom": 2.0166666666666644,
+      "elapsedTo": 22.016666666666698,
+      "racers": 6,
+      "diagnostics": [
+        {
+          "name": "你",
+          "passed": 13,
+          "resets": -10,
+          "yaw": -4.147583416249122,
+          "t": 0.5699459929167109,
+          "offset": 1.8596740789735247,
+          "speed": 23.490294269082,
+          "ai": {
+            "lane": 1.1526179936543213,
+            "targetLane": 1.1526179936543213,
+            "holdUntil": 21.766666666666854,
+            "nextDecision": 22.066666666666706,
+            "action": "pass",
+            "targetSpeed": 23.555231535655043,
+            "boostSafe": false,
+            "laneChanges": 4,
+            "overtakes": 0,
+            "passTarget": 1
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "椰子汽水",
+          "passed": 14,
+          "resets": -10,
+          "yaw": -4.792062456727127,
+          "t": 0.6081069205893875,
+          "offset": -0.3896310661483054,
+          "speed": 25.320286168855468,
+          "ai": {
+            "lane": -1.4,
+            "targetLane": -1.4,
+            "holdUntil": 0,
+            "nextDecision": 22.01666666666671,
+            "action": "cruise",
+            "targetSpeed": 25.55241746640127,
+            "boostSafe": false,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "橘子海",
+          "passed": 12,
+          "resets": -10,
+          "yaw": -3.4240588116123747,
+          "t": 0.5095458390701126,
+          "offset": -3.5787250841835925,
+          "speed": 28.96586213956133,
+          "ai": {
+            "lane": -3.416944439055765,
+            "targetLane": -3.6,
+            "holdUntil": 23.8833333333334,
+            "nextDecision": 22.01666666666671,
+            "action": "pass",
+            "targetSpeed": 28.886191190526336,
+            "boostSafe": false,
+            "laneChanges": 7,
+            "overtakes": 0,
+            "passTarget": 5
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "追风少年",
+          "passed": 13,
+          "resets": -10,
+          "yaw": -3.7397002071389975,
+          "t": 0.558210751313551,
+          "offset": -4.087944467675741,
+          "speed": 16.665195847941074,
+          "ai": {
+            "lane": -4.328388578633854,
+            "targetLane": -4.328388578633854,
+            "holdUntil": 19.116666666667005,
+            "nextDecision": 22.01666666666671,
+            "action": "pass",
+            "targetSpeed": 16.513185652970133,
+            "boostSafe": false,
+            "laneChanges": 3,
+            "overtakes": 0,
+            "passTarget": 1
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "薄荷冰",
+          "passed": 11,
+          "resets": -10,
+          "yaw": -4.235231266305003,
+          "t": 0.48119259066825154,
+          "offset": -1.5928444277000273,
+          "speed": 18.142059054219335,
+          "ai": {
+            "lane": 0.5326588937059387,
+            "targetLane": 0.5326588937059387,
+            "holdUntil": 22.36666666666682,
+            "nextDecision": 22.01666666666671,
+            "action": "pass",
+            "targetSpeed": 21.10190461151164,
+            "boostSafe": false,
+            "laneChanges": 7,
+            "overtakes": 0,
+            "passTarget": 5
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "晚风",
+          "passed": 12,
+          "resets": -10,
+          "yaw": -3.550934674333321,
+          "t": 0.5362637587894887,
+          "offset": 4.108014333499718,
+          "speed": 22.51598446617393,
+          "ai": {
+            "lane": 1.710000000000016,
+            "targetLane": -0.8538798336130369,
+            "holdUntil": 23.233333333333437,
+            "nextDecision": 22.01666666666671,
+            "action": "pass",
+            "targetSpeed": 22.377727553069324,
+            "boostSafe": false,
+            "laneChanges": 5,
+            "overtakes": 0,
+            "passTarget": 3
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        }
+      ]
+    },
+    {
+      "trackId": "canyon",
+      "quality": "high",
+      "fps": 120.0193950544042,
+      "p95FrameMs": 9.200000000000728,
+      "frames": 2401,
+      "drawCalls": 116.63723448563098,
+      "elapsedFrom": 2.0166666666666644,
+      "elapsedTo": 22.016666666666698,
+      "racers": 6,
+      "diagnostics": [
+        {
+          "name": "你",
+          "passed": 9,
+          "resets": -10,
+          "yaw": -5.084978849078237,
+          "t": 0.39175712067276247,
+          "offset": 3.5231946511303645,
+          "speed": 20.943881429075017,
+          "ai": {
+            "lane": 3.0013178691761597,
+            "targetLane": 3.0013178691761597,
+            "holdUntil": 13.316666666666784,
+            "nextDecision": 22.066666666666706,
+            "action": "pass",
+            "targetSpeed": 21.17995091477683,
+            "boostSafe": false,
+            "laneChanges": 3,
+            "overtakes": 0,
+            "passTarget": 1
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "椰子汽水",
+          "passed": 9,
+          "resets": -10,
+          "yaw": -5.416322051688164,
+          "t": 0.4135085634021909,
+          "offset": -2.911583102267354,
+          "speed": 19.33572243483894,
+          "ai": {
+            "lane": -2.5896305623776623,
+            "targetLane": -2.5896305623776623,
+            "holdUntil": 15.16666666666697,
+            "nextDecision": 22.01666666666671,
+            "action": "cruise",
+            "targetSpeed": 19.074038934626728,
+            "boostSafe": false,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "橘子海",
+          "passed": 8,
+          "resets": -10,
+          "yaw": -4.1446946922787555,
+          "t": 0.347008461903643,
+          "offset": -3.106427924229373,
+          "speed": 18.96492269099972,
+          "ai": {
+            "lane": -3.073079852794943,
+            "targetLane": -3.073079852794943,
+            "holdUntil": 22.80000000000013,
+            "nextDecision": 22.01666666666671,
+            "action": "pass",
+            "targetSpeed": 18.84159094757017,
+            "boostSafe": false,
+            "laneChanges": 5,
+            "overtakes": 0,
+            "passTarget": 3
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "追风少年",
+          "passed": 8,
+          "resets": -10,
+          "yaw": -4.801752927176738,
+          "t": 0.37103974096831366,
+          "offset": 1.682237053265861,
+          "speed": 24.423966188678232,
+          "ai": {
+            "lane": 0.3201062922436395,
+            "targetLane": 0.3201062922436395,
+            "holdUntil": 21.500000000000203,
+            "nextDecision": 22.01666666666671,
+            "action": "pass",
+            "targetSpeed": 24.396054161545408,
+            "boostSafe": false,
+            "laneChanges": 5,
+            "overtakes": 0,
+            "passTarget": 0
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "薄荷冰",
+          "passed": 7,
+          "resets": -10,
+          "yaw": -3.8035804122119643,
+          "t": 0.3162631357320217,
+          "offset": 5.091975219999268,
+          "speed": 23.423019412846987,
+          "ai": {
+            "lane": 3.593770545999474,
+            "targetLane": 3.593770545999474,
+            "holdUntil": 19.33333333333366,
+            "nextDecision": 22.01666666666671,
+            "action": "pass",
+            "targetSpeed": 23.464990850404686,
+            "boostSafe": false,
+            "laneChanges": 6,
+            "overtakes": 0,
+            "passTarget": 5
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "晚风",
+          "passed": 8,
+          "resets": -10,
+          "yaw": -4.11821270152894,
+          "t": 0.34555209899340145,
+          "offset": 3.8040788044724696,
+          "speed": 17.981898866908296,
+          "ai": {
+            "lane": 3.6,
+            "targetLane": 3.6,
+            "holdUntil": 22.583333333333474,
+            "nextDecision": 22.01666666666671,
+            "action": "pass",
+            "targetSpeed": 17.856153163786292,
+            "boostSafe": false,
+            "laneChanges": 6,
+            "overtakes": 0,
+            "passTarget": 3
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        }
+      ]
+    },
+    {
+      "trackId": "canyon",
+      "quality": "low",
+      "fps": 120.02479479323647,
+      "p95FrameMs": 9.19999999999709,
+      "frames": 2401,
+      "drawCalls": 116.63390254060808,
+      "elapsedFrom": 2.0166666666666644,
+      "elapsedTo": 22.033333333333363,
+      "racers": 6,
+      "diagnostics": [
+        {
+          "name": "你",
+          "passed": 9,
+          "resets": -10,
+          "yaw": -5.086642598412186,
+          "t": 0.39206045642615805,
+          "offset": 3.503349630216114,
+          "speed": 20.563350844727783,
+          "ai": {
+            "lane": 3.0013178691761597,
+            "targetLane": 3.0013178691761597,
+            "holdUntil": 13.316666666666784,
+            "nextDecision": 22.066666666666706,
+            "action": "pass",
+            "targetSpeed": 20.906333746601845,
+            "boostSafe": false,
+            "laneChanges": 3,
+            "overtakes": 0,
+            "passTarget": 1
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "椰子汽水",
+          "passed": 9,
+          "resets": -10,
+          "yaw": -5.426254169378522,
+          "t": 0.413780947395876,
+          "offset": -2.9292360488659206,
+          "speed": 18.986368789001254,
+          "ai": {
+            "lane": -2.5896305623776623,
+            "targetLane": -2.5896305623776623,
+            "holdUntil": 15.16666666666697,
+            "nextDecision": 22.233333333333363,
+            "action": "cruise",
+            "targetSpeed": 19.177599004774567,
+            "boostSafe": false,
+            "laneChanges": 0,
+            "overtakes": 0,
+            "passTarget": null
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "橘子海",
+          "passed": 8,
+          "resets": -10,
+          "yaw": -4.147076595890721,
+          "t": 0.34727857165502274,
+          "offset": -3.099440491750174,
+          "speed": 18.6205358402875,
+          "ai": {
+            "lane": -3.073079852794943,
+            "targetLane": -3.073079852794943,
+            "holdUntil": 22.80000000000013,
+            "nextDecision": 22.233333333333363,
+            "action": "pass",
+            "targetSpeed": 18.832586187668934,
+            "boostSafe": false,
+            "laneChanges": 5,
+            "overtakes": 0,
+            "passTarget": 3
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "追风少年",
+          "passed": 8,
+          "resets": -10,
+          "yaw": -4.8116282123274035,
+          "t": 0.3713939994016473,
+          "offset": 1.6974785561050842,
+          "speed": 24.689439043775344,
+          "ai": {
+            "lane": 0.3201062922436395,
+            "targetLane": 0.3201062922436395,
+            "holdUntil": 21.500000000000203,
+            "nextDecision": 22.233333333333363,
+            "action": "pass",
+            "targetSpeed": 24.435342069018155,
+            "boostSafe": false,
+            "laneChanges": 5,
+            "overtakes": 0,
+            "passTarget": 0
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "薄荷冰",
+          "passed": 7,
+          "resets": -10,
+          "yaw": -3.81466403573614,
+          "t": 0.31661984716907104,
+          "offset": 5.107304473609099,
+          "speed": 23.68793820951402,
+          "ai": {
+            "lane": 3.593770545999474,
+            "targetLane": 3.593770545999474,
+            "holdUntil": 19.33333333333366,
+            "nextDecision": 22.233333333333363,
+            "action": "pass",
+            "targetSpeed": 23.53469875686092,
+            "boostSafe": false,
+            "laneChanges": 6,
+            "overtakes": 0,
+            "passTarget": 5
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        },
+        {
+          "name": "晚风",
+          "passed": 8,
+          "resets": -10,
+          "yaw": -4.1227772054595775,
+          "t": 0.34581351419007067,
+          "offset": 3.816952481754658,
+          "speed": 17.655475729178757,
+          "ai": {
+            "lane": 3.6,
+            "targetLane": 3.6,
+            "holdUntil": 22.583333333333474,
+            "nextDecision": 22.233333333333363,
+            "action": "pass",
+            "targetSpeed": 17.842405237594548,
+            "boostSafe": false,
+            "laneChanges": 6,
+            "overtakes": 0,
+            "passTarget": 3
+          },
+          "collisions": 0,
+          "resetCount": 0,
+          "offroadSeconds": 0
+        }
+      ]
+    }
+  ],
+  "errors": []
+}
