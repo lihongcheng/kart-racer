@@ -1,0 +1,128 @@
+{
+  "date": "2026-10-01",
+  "machine": "Apple M5 Pro / 48 GiB RAM",
+  "browser": "149.0.7827.54",
+  "headless": true,
+  "viewport": "1920x1080",
+  "deviceScaleFactor": 1,
+  "loadMs": 734,
+  "measurements": [
+    {
+      "quality": "high",
+      "averageFps": 30.04,
+      "p95FrameMs": 34.19999999999982,
+      "frames": 301,
+      "diagnostics": {
+        "renderer": {
+          "frame": 428,
+          "calls": 42,
+          "triangles": 55328,
+          "points": 0,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 274,
+          "textures": 19
+        },
+        "racers": [
+          {
+            "name": "你",
+            "passed": 2,
+            "resets": 5.949999999999984,
+            "yaw": -1.8534644763413433
+          },
+          {
+            "name": "椰子汽水",
+            "passed": 5,
+            "resets": -10,
+            "yaw": -3.3033356558407734
+          },
+          {
+            "name": "橘子海",
+            "passed": 5,
+            "resets": -10,
+            "yaw": -3.2301357341605543
+          },
+          {
+            "name": "追风少年",
+            "passed": 5,
+            "resets": -10,
+            "yaw": -3.245324805148454
+          },
+          {
+            "name": "薄荷冰",
+            "passed": 4,
+            "resets": -10,
+            "yaw": -3.1359136322268157
+          },
+          {
+            "name": "晚风",
+            "passed": 4,
+            "resets": -10,
+            "yaw": -3.156196183859071
+          }
+        ]
+      }
+    },
+    {
+      "quality": "low",
+      "averageFps": 30.01,
+      "p95FrameMs": 34.099999999998545,
+      "frames": 301,
+      "diagnostics": {
+        "renderer": {
+          "frame": 843,
+          "calls": 41,
+          "triangles": 55264,
+          "points": 0,
+          "lines": 0
+        },
+        "memory": {
+          "geometries": 274,
+          "textures": 19
+        },
+        "racers": [
+          {
+            "name": "你",
+            "passed": 2,
+            "resets": 5.933333333333318,
+            "yaw": -1.8534644763413433
+          },
+          {
+            "name": "椰子汽水",
+            "passed": 5,
+            "resets": -10,
+            "yaw": -3.3033356558407734
+          },
+          {
+            "name": "橘子海",
+            "passed": 5,
+            "resets": -10,
+            "yaw": -3.2301357341605543
+          },
+          {
+            "name": "追风少年",
+            "passed": 5,
+            "resets": -10,
+            "yaw": -3.245324805148454
+          },
+          {
+            "name": "薄荷冰",
+            "passed": 4,
+            "resets": -10,
+            "yaw": -3.1359136322268157
+          },
+          {
+            "name": "晚风",
+            "passed": 4,
+            "resets": -10,
+            "yaw": -3.156196183859071
+          }
+        ]
+      }
+    }
+  ],
+  "mobileNoticeVisible": true,
+  "errors": [],
+  "blankPageBaselineFps": 30.07270323859881
+}

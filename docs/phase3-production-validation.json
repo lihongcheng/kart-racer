@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-01T15:02:37.743Z",
+  "browser": "149.0.7827.54",
+  "models": {
+    "classic-kart": 200,
+    "kart": 200,
+    "palm": 200,
+    "rocks": 200
+  },
+  "circuits": [
+    {
+      "name": "海风环线",
+      "keyboardSpeedKmh": 55,
+      "pause": true,
+      "restart": true,
+      "singleCanvas": true
+    },
+    {
+      "name": "落日峡谷",
+      "keyboardSpeedKmh": 53,
+      "pause": true,
+      "restart": true,
+      "singleCanvas": true
+    }
+  ],
+  "trackPersists": true,
+  "staticWorkshop": true,
+  "debugHarness": false,
+  "errors": []
+}

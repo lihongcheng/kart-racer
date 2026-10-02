@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-01T14:42:32.956Z",
+  "browser": "149.0.7827.54",
+  "models": {
+    "classic-kart": 200,
+    "kart": 200,
+    "palm": 200,
+    "rocks": 200
+  },
+  "keyboardSpeedKmh": 56,
+  "pause": true,
+  "staticWorkshop": true,
+  "debugHarness": false,
+  "errors": []
+}

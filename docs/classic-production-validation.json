@@ -1,0 +1,39 @@
+{
+  "debugInterface": "undefined",
+  "assets": [
+    {
+      "id": "kart-classic",
+      "status": 200,
+      "bytes": 205668
+    },
+    {
+      "id": "kart",
+      "status": 200,
+      "bytes": 252756
+    },
+    {
+      "id": "palm",
+      "status": 200,
+      "bytes": 160020
+    },
+    {
+      "id": "rocks",
+      "status": 200,
+      "bytes": 106396
+    }
+  ],
+  "staticWorkshop": true,
+  "keyboardAcceleration": true,
+  "pageErrors": [],
+  "garageRenderer": {
+    "frame": 406,
+    "calls": 133,
+    "triangles": 127614,
+    "points": 0,
+    "lines": 0
+  },
+  "garageMemory": {
+    "geometries": 375,
+    "textures": 16
+  }
+}

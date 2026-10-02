@@ -1,0 +1,40 @@
+[
+  {
+    "id": "kart-classic",
+    "name": "浪游者 Classic · 当前赛车",
+    "url": "/models/classic-kart.glb",
+    "source": "Coastline Club / 原创程序建模",
+    "triangles": 30438,
+    "bytes": 205668
+  },
+  {
+    "id": "kart",
+    "name": "初代 Rodin 概念车 · 收藏",
+    "url": "/models/kart.glb",
+    "displayUrl": "https://hyper3d.ai/workspace/rodin/45c1822a-6d32-4dad-b6c6-b5590ea7a504",
+    "generationId": "45c1822a-6d32-4dad-b6c6-b5590ea7a504",
+    "source": "Hyper3D Rodin Gen-2.5 / OAuth MCP",
+    "triangles": 10209,
+    "bytes": 252756
+  },
+  {
+    "id": "palm",
+    "name": "海岛棕榈",
+    "url": "/models/palm.glb",
+    "displayUrl": "https://hyper3d.ai/workspace/rodin/7ec9ead8-1adc-45fe-8c0e-034e2232fdf1",
+    "generationId": "7ec9ead8-1adc-45fe-8c0e-034e2232fdf1",
+    "source": "Hyper3D Rodin Gen-2.5 / OAuth MCP",
+    "triangles": 3500,
+    "bytes": 160020
+  },
+  {
+    "id": "rocks",
+    "name": "海岸砂岩",
+    "url": "/models/rocks.glb",
+    "displayUrl": "https://hyper3d.ai/workspace/rodin/547b0542-355b-4afd-b9dc-4d86954979ec",
+    "generationId": "547b0542-355b-4afd-b9dc-4d86954979ec",
+    "source": "Hyper3D Rodin Gen-2.5 / OAuth MCP",
+    "triangles": 2000,
+    "bytes": 106396
+  }
+]

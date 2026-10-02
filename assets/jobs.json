@@ -1,0 +1,27 @@
+{
+  "provider": "Hyper3D Rodin MCP",
+  "submittedAt": "2026-10-01",
+  "jobs": [
+    {
+      "id": "kart",
+      "name": "浪游者 · 赛车车身",
+      "generationId": "45c1822a-6d32-4dad-b6c6-b5590ea7a504",
+      "target": "kart.glb",
+      "targetPolygons": 18000
+    },
+    {
+      "id": "palm",
+      "name": "海岛棕榈",
+      "generationId": "7ec9ead8-1adc-45fe-8c0e-034e2232fdf1",
+      "target": "palm.glb",
+      "targetPolygons": 3500
+    },
+    {
+      "id": "rocks",
+      "name": "海岸砂岩",
+      "generationId": "547b0542-355b-4afd-b9dc-4d86954979ec",
+      "target": "rocks.glb",
+      "targetPolygons": 2000
+    }
+  ]
+}

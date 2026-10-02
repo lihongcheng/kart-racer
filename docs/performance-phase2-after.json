@@ -1,0 +1,61 @@
+{
+  "label": "phase2-after",
+  "date": "2026-10-01T14:39:32.056Z",
+  "browser": "149.0.7827.54",
+  "headless": true,
+  "viewport": "1920x1080",
+  "deviceScaleFactor": 1,
+  "framesPerSample": 90,
+  "blankPageBaselineFps": 121.82,
+  "measurements": [
+    {
+      "quality": "high",
+      "scene": "menu",
+      "fps": 120.66,
+      "p95FrameMs": 9.1,
+      "drawCalls": 268,
+      "triangles": 344232,
+      "memory": {
+        "geometries": 227,
+        "textures": 16
+      }
+    },
+    {
+      "quality": "high",
+      "scene": "grid",
+      "fps": 121.26,
+      "p95FrameMs": 9.2,
+      "drawCalls": 131,
+      "triangles": 238804,
+      "memory": {
+        "geometries": 372,
+        "textures": 16
+      }
+    },
+    {
+      "quality": "low",
+      "scene": "menu",
+      "fps": 120.89,
+      "p95FrameMs": 9.2,
+      "drawCalls": 268,
+      "triangles": 344232,
+      "memory": {
+        "geometries": 227,
+        "textures": 15
+      }
+    },
+    {
+      "quality": "low",
+      "scene": "grid",
+      "fps": 121.31,
+      "p95FrameMs": 9.1,
+      "drawCalls": 131,
+      "triangles": 238804,
+      "memory": {
+        "geometries": 372,
+        "textures": 15
+      }
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,24 @@
+{
+  "productionDebugApi": "undefined",
+  "standaloneWorkshop": true,
+  "models": [
+    {
+      "url": "/models/kart.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/palm.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/rocks.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/kart.glb",
+      "status": 200
+    }
+  ],
+  "keyboardSpeed": "32",
+  "errors": []
+}

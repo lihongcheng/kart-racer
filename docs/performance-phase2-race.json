@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-01T14:44:26.829Z",
+  "browser": "149.0.7827.54",
+  "headless": true,
+  "viewport": "1920x1080",
+  "deviceScaleFactor": 1,
+  "difficulty": "normal",
+  "motion": true,
+  "blankPageBaselineFps": 120.22,
+  "measurements": [
+    {
+      "quality": "high",
+      "fps": 120.01,
+      "p95FrameMs": 9.1,
+      "frames": 4801,
+      "sampleSeconds": 40.005,
+      "framesOver33ms": 0,
+      "drawCalls": 122.1,
+      "triangles": 214726,
+      "lowDetailFrames": 962,
+      "driftFrames": 18,
+      "peakParticles": 4,
+      "peakMarks": 4,
+      "memory": {
+        "geometries": 374,
+        "textures": 16
+      },
+      "race": {
+        "elapsedFrom": 2.0166666666666644,
+        "elapsedTo": 42.016666666665564,
+        "lapFrom": 1,
+        "lapTo": 2,
+        "racers": 6,
+        "phase": "racing"
+      }
+    },
+    {
+      "quality": "low",
+      "fps": 120.01,
+      "p95FrameMs": 9.1,
+      "frames": 4801,
+      "sampleSeconds": 40.006,
+      "framesOver33ms": 0,
+      "drawCalls": 122.1,
+      "triangles": 214699,
+      "lowDetailFrames": 963,
+      "driftFrames": 19,
+      "peakParticles": 2,
+      "peakMarks": 2,
+      "memory": {
+        "geometries": 374,
+        "textures": 15
+      },
+      "race": {
+        "elapsedFrom": 2.0166666666666644,
+        "elapsedTo": 42.016666666665564,
+        "lapFrom": 1,
+        "lapTo": 2,
+        "racers": 6,
+        "phase": "racing"
+      }
+    }
+  ],
+  "errors": [],
+  "resourceWarnings": [
+    "Missing browser tab icon: http://localhost:5174/favicon.ico"
+  ]
+}
