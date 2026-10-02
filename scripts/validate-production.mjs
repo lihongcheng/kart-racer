@@ -1,4 +1,4 @@
-import { chromium, expect } from '@playwright/test';
+import { chromium, expect as playwrightExpect } from '@playwright/test';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { resolve, sep } from 'node:path';
@@ -20,6 +20,11 @@ if (!url) {
 }
 await mkdir('docs/screenshots', { recursive: true });
 const ci = !!process.env.CI;
+// This standalone Node script does not load playwright.config.ts.
+// page.setDefaultTimeout controls actions, not the default 5-second assertion deadline.
+// Software-rendered frames can advance the fixed-step simulation slower than wall time.
+const assertionTimeout = ci ? 60_000 : 10_000;
+const expect = playwrightExpect.configure({ timeout: assertionTimeout });
 // Hosted Linux runners have no physical GPU; request Chromium's software renderer explicitly.
 const browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL || (ci ? undefined : 'chrome'),
   args: ci ? ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] : [] });
@@ -78,8 +83,10 @@ for (const name of ['海风环线', '落日峡谷']) {
 await page.getByRole('button', { name: /驾驶实操 · 四步上手/ }).click();
 await expect(page.locator('.countdown')).toHaveCount(0, { timeout: ci ? 60_000 : 10_000 });
 await expect(page.locator('.training-card')).toContainText('教学氮气免费补给');
+const trainingStartedAt = performance.now();
 await page.keyboard.down('w');
 await expect(page.locator('.training-card li.done')).toHaveCount(1);
+const accelerationWallMs = Math.round(performance.now() - trainingStartedAt);
 await page.keyboard.press('Escape'); await page.keyboard.up('w');
 await expect(page.getByRole('dialog')).toContainText('训练已暂停');
 await page.reload();
@@ -108,8 +115,8 @@ for (const name of ['初代 Rodin 概念车', '海岛棕榈', '海岸砂岩']) {
   expect((await page.request.get(new URL(href, url).href)).status()).toBe(200);
 }
 await page.screenshot({ path: 'docs/screenshots/phase5-production-workshop.png', animations: 'disabled' });
-const report = { date: new Date().toISOString(), browser: browser.version(), ci, viewport: page.viewportSize(), base: new URL(url).pathname, models, circuits,
-  training: { keyboardAcceleration: true, savedResume: true, replay: true, recordsIsolated: true },
+const report = { date: new Date().toISOString(), browser: browser.version(), ci, assertionTimeout, viewport: page.viewportSize(), base: new URL(url).pathname, models, circuits,
+  training: { keyboardAcceleration: true, accelerationWallMs, savedResume: true, replay: true, recordsIsolated: true },
   trackPersists: true, staticWorkshop: true, debugHarness: false, forbiddenRequests, errors };
 await writeFile('docs/phase5-production-validation.json', JSON.stringify(report, null, 2) + '\n');
 console.log(JSON.stringify(report));
@@ -122,8 +129,15 @@ expect(errors).toEqual([]);
     countdown: document.querySelector('.countdown')?.textContent,
     speed: document.querySelector('.speed strong')?.textContent,
     phase: document.querySelector('.app')?.className,
+    elapsed: document.querySelector('.race-time > strong')?.textContent,
+    visibility: document.visibilityState,
+    training: document.querySelector('.training-card') ? {
+      completed: document.querySelectorAll('.training-card li.done').length,
+      hint: document.querySelector('.training-card [role="status"]')?.textContent,
+      progress: document.querySelector('.training-card progress')?.value,
+    } : null,
   })).catch(() => null);
-  const diagnostic = { message: error.message, stack: error.stack, url: page.url(), ui, errors, forbiddenRequests };
+  const diagnostic = { message: error.message, stack: error.stack, url: page.url(), assertionTimeout, ui, errors, forbiddenRequests };
   await writeFile('test-results/production/failure.json', JSON.stringify(diagnostic, null, 2) + '\n');
   await page.screenshot({ path: 'test-results/production/failure.png', timeout: 5000 }).catch(() => {});
   // Public check annotations retain the actual failure even when log downloads require authentication.
