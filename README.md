@@ -2,7 +2,7 @@
 
 可直接在 PC 浏览器游玩的原创 3D 街机竞速游戏：海风环线与落日峡谷双赛道、1 玩家 + 5 AI、三圈比赛、漂移集气、小喷、氮气、赛事奖牌、最佳幽灵车、分段计时、车库配色、本地纪录与 Hyper3D 模型工坊。
 
-在线试玩目标地址：**https://lihongcheng.github.io/kart-racer/**。首次上线需仓库管理员在 [Settings → Pages](https://github.com/lihongcheng/kart-racer/settings/pages) 将 Source 设为 **GitHub Actions**，然后在 [发布工作流](https://github.com/lihongcheng/kart-racer/actions/workflows/pages.yml) 运行或重跑部署。部署完成前请使用下方本地启动方式。
+**[在线试玩 → 极速小车](https://lihongcheng.github.io/kart-racer/)** · 电脑键盘游玩，无需安装。[发布工作流](https://github.com/lihongcheng/kart-racer/actions/workflows/pages.yml) 已自动部署至 GitHub Pages。
 
 ## 启动
 

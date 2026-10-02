@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-02T07:13:07.305Z",
+  "url": "https://lihongcheng.github.io/kart-racer/",
+  "deploymentRun": "https://github.com/lihongcheng/kart-racer/actions/runs/36970199603",
+  "deployedCommit": "f893368b9a20b54b9810bf31e043c68bbd808fca",
+  "browser": "149.0.7827.54",
+  "ci": false,
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "base": "/kart-racer/",
+  "models": {
+    "classic-kart": 200,
+    "kart": 200,
+    "palm": 200,
+    "rocks": 200
+  },
+  "circuits": [
+    {
+      "name": "海风环线",
+      "keyboardSpeedKmh": 56,
+      "pause": true,
+      "restart": true,
+      "singleCanvas": true
+    },
+    {
+      "name": "落日峡谷",
+      "keyboardSpeedKmh": 52,
+      "pause": true,
+      "restart": true,
+      "singleCanvas": true
+    }
+  ],
+  "trackPersists": true,
+  "staticWorkshop": true,
+  "debugHarness": false,
+  "forbiddenRequests": [],
+  "errors": []
+}

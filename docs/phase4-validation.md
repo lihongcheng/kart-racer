@@ -1,6 +1,6 @@
 # 第四阶段验收：幽灵车、分段计时与静态发布
 
-日期：2026-10-02。范围对应 [实施方案](phase4-plan.md)。功能代码与本地验收完成；公开站点首次启用尚待仓库管理员操作，当前不宣称已上线。
+日期：2026-10-02。范围对应 [实施方案](phase4-plan.md)。个人最佳幽灵车、分段计时与在线试玩均已交付；本地、云端构建及公开站点验收通过。
 
 ## 已交付
 
@@ -44,10 +44,18 @@
 - [海风环线结算](screenshots/phase4-coastline-results.png) / [落日峡谷结算](screenshots/phase4-canyon-results.png)
 - [720p 计时菜单](screenshots/phase4-canyon-menu.png) / [静态工坊](screenshots/phase4-production-workshop.png)
 
-## 发布状态与首次启用
+## 公开站点验收
 
-工作流：[pages.yml](../.github/workflows/pages.yml)。构建使用 Node.js 24，执行单元测试、生产构建与 Playwright Chromium 静态验收，再上传 Pages artifact；主分支才进入部署。
+在线试玩：[https://lihongcheng.github.io/kart-racer/](https://lihongcheng.github.io/kart-racer/)。
 
-目标地址：`https://lihongcheng.github.io/kart-racer/`。开发时公开 API 返回仓库尚未启用 Pages；当前会话有 SSH 推送权限，但没有修改仓库 Pages 设置的管理认证。首次启用不是 SSH 推送或工作流默认令牌可以代办的操作。
+[发布任务 36970199603](https://github.com/lihongcheng/kart-racer/actions/runs/36970199603) 已成功，发布提交为 `f893368`。工作流固定 Ubuntu 24.04，项目和 Action 使用 Node.js 24；无 GPU 的 CI 运行器使用 SwiftShader 验证生产页面。构建、单元测试、静态浏览器验收、Pages 上传与部署全部通过。
 
-管理员在 [Settings → Pages](https://github.com/lihongcheng/kart-racer/settings/pages) 将 Source 设为 **GitHub Actions**，再在 [Actions](https://github.com/lihongcheng/kart-racer/actions/workflows/pages.yml) 运行或重跑部署。部署成功后需访问公开地址确认加载；此步骤完成前，在线试玩仍为待启用状态。本地与在线存档按站点分别保存。
+2026-10-02 在全新 Chrome 149 浏览器上下文、1440×900 下直接访问公开地址，执行：
+
+```sh
+node scripts/validate-production.mjs https://lihongcheng.github.io/kart-racer/
+```
+
+双赛道键盘驾驶通过（海风环线 56 km/h、落日峡谷 52 km/h），暂停、重赛、赛道选择刷新保留通过。四件 GLB 均返回 200 且文件头正确，逐件预览和下载通过。无根路径资产请求、无本地 API 请求、无开发调试接口与生成面板，无运行时异常。本次公开验收为驾驶与资源冒烟检查；完整三圈、幽灵车与存档边界用例见上方本地验收。
+
+结果：[phase4-online-validation.json](phase4-online-validation.json)。截图：[海风环线](screenshots/phase4-online-coastline.png)、[落日峡谷](screenshots/phase4-online-canyon.png)、[模型工坊](screenshots/phase4-online-workshop.png)。本地与在线存档按站点分别保存。
